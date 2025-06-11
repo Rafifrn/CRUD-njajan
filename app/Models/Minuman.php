@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Minuman extends Model
 {
@@ -12,5 +13,11 @@ class Minuman extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    // relationships
+    public function harga(): HasMany
+    {
+        return $this->hasMany(Harga::class);
     }
 }

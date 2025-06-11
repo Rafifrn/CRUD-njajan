@@ -18,7 +18,6 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->decimal('price', 10, 2)->default(0.00);
             $table->foreignId('makanan_id')->constrained('makanans')->cascadeOnDelete();
-            $table->foreignId('dessert_id')->constrained('desserts')->cascadeOnDelete();
             $table->foreignId('minuman_id')->constrained('minumen')->cascadeOnDelete();
             $table->timestamps();
         });

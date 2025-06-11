@@ -1,113 +1,190 @@
-@extends('master')
-@section('content')
-    <header class="hero">
-        <div class="container h-100">
-            <div class="row h-100 align-items-center">
-                <div class="col-12 text-center">
-                    <h1 class="text-black">Selamat Datang di Njajan </h1>
-                    <p class="lead text-black">Aneka Jajanan dengan Rasa Autentik</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Njajan - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hero-bg {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('http://njajan.zhaffran.com/img/sour-moha-4Tgjeh1fWCc-unsplash.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .smooth-transition {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="font-sans bg-slate-50">
+    <!-- Navigation -->
+    <nav class="bg-[#212529] text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <a href="#" class="text-2xl font-bold">NJAJAN</a>
+                
+                <!-- Mobile menu button -->
+                <button id="mobile-menu-button" class="md:hidden focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex space-x-6">
+                    <a href="/" class="hover:text-amber-100 smooth-transition">Home</a>
+                    <a href="/about" class="hover:text-amber-100 smooth-transition">Tentang Kami</a>
+                    <a href="/menu" class="hover:text-amber-100 smooth-transition">Menu</a>
+                </div>
+            </div>
+            
+            <!-- Mobile Navigation -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-2">
+                <a href="/" class="block py-2 hover:text-amber-200 smooth-transition">Home</a>
+                <a href="/about" class="block py-2 hover:text-amber-200 smooth-transition">Tentang Kami</a>
+                <a href="/menu" class="block py-2 hover:text-amber-200 smooth-transition">Menu</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-bg text-white py-20 md:py-32 flex items-center">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4 animate-fade-in-down">Selamat Datang di Njajan</h1>
+            <p class="text-xl md:text-2xl mb-8 animate-fade-in-down delay-100">Aneka Jajanan dengan Rasa Autentik</p>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <!-- Mengapa Memilih Njajan -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12 text-[#212529]">Mengapa Memilih Njajan</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            <!-- Card 1 -->
+            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-all border border-gray-200 text-center">
+                <div class="text-[#212529] mb-4">
+                    <i class="fas fa-mug-hot text-4xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-3 text-[#212529]">Ragam Jajanan Nusantara Autentik</h3>
+                <p class="text-gray-700">Njajan menghadirkan berbagai pilihan jajanan khas dari seluruh penjuru Nusantara—mulai dari yang legendaris hingga yang jarang ditemukan—disajikan dengan cita rasa otentik dan bahan berkualitas.</p>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-all border border-gray-200 text-center">
+                <div class="text-[#212529] mb-4">
+                    <i class="fas fa-store text-4xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-3 text-[#212529]">Tempat Nyaman dan Elegan</h3>
+                <p class="text-gray-700">Tempat kami didesain dengan nuansa modern dan sentuhan budaya lokal, menciptakan suasana yang nyaman untuk bersantai, berkumpul, atau menikmati waktu luang dengan hidangan khas daerah.</p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-all border border-gray-200 text-center">
+                <div class="text-[#212529] mb-4">
+                    <i class="fas fa-users text-4xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-3 text-[#212529]">UMKM dengan Sentuhan Premium</h3>
+                <p class="text-gray-700">Sebagai UMKM, kami mengutamakan kualitas dan keunikan produk. Dengan kemasan menarik, rasa istimewa, dan harga yang tetap bersahabat, Njajan siap menjadi pilihan utama bagi pecinta kuliner tradisional yang berkelas.</p>
+            </div>
+        </div>
+
+        <!-- Jam Operasional -->
+        <div class="max-w-xl mx-auto bg-white p-6 rounded-lg shadow-md border border-gray-200 text-center">
+            <h3 class="text-xl font-semibold mb-4 text-[#212529]">Jam Operasional</h3>
+            <div class="text-gray-700">
+                <div class="flex justify-between py-1 border-b">
+                    <span><strong>Senin - Jumat</strong></span>
+                    <span>07:00 - 22:00</span>
+                </div>
+                <div class="flex justify-between py-1 border-b">
+                    <span><strong>Sabtu</strong></span>
+                    <span>08:00 - 23:00</span>
+                </div>
+                <div class="flex justify-between py-1">
+                    <span><strong>Minggu</strong></span>
+                    <span>09:00 - 21:00</span>
                 </div>
             </div>
         </div>
-    </header>
+    </div>
+</section>
 
-    <section class="py-5 bg-light">
-        <div class="container">
-            <h2 class="text-center mb-5">Mengapa Memilih Njajan</h2>
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <div class="card-body text-center py-4">
-                            <div class="feature-icon mb-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" class="bi bi-cup-hot" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M.5 6a.5.5 0 0 0-.488.608l1.652 7.434A2.5 2.5 0 0 0 4.104 16h5.792a2.5 2.5 0 0 0 2.44-1.958l.131-.59a3 3 0 0 0 1.3-5.854l.221-.99A.5.5 0 0 0 13.5 6H.5ZM13 12.5a2.01 2.01 0 0 1-.316-.025l.867-3.898A2.001 2.001 0 0 1 13 12.5ZM2.64 13.825 1.123 7h11.754l-1.517 6.825A1.5 1.5 0 0 1 9.896 15H4.104a1.5 1.5 0 0 1-1.464-1.175Z"/>
-                                    <path d="m4.4.8-.003.004-.014.019a4.167 4.167 0 0 0-.204.31 2.327 2.327 0 0 0-.141.267c-.026.06-.034.092-.037.103v.004a.593.593 0 0 0 .091.248c.075.133.178.272.308.445l.01.012c.118.158.26.347.37.543.112.2.22.455.22.745 0 .188-.065.368-.119.494a3.31 3.31 0 0 1-.202.388 5.444 5.444 0 0 1-.253.382l-.018.025-.005.008-.002.002A.5.5 0 0 1 3.6 4.2l.003-.004.014-.019a4.149 4.149 0 0 0 .204-.31 2.06 2.06 0 0 0 .141-.267c.026-.06.034-.092.037-.103a.593.593 0 0 0-.09-.252A4.334 4.334 0 0 0 3.6 2.8l-.01-.012a5.099 5.099 0 0 1-.37-.543A1.53 1.53 0 0 1 3 1.5c0-.188.065-.368.119-.494.059-.138.134-.274.202-.388a5.446 5.446 0 0 1 .253-.382l.025-.035A.5.5 0 0 1 4.4.8Zm3 0-.003.004-.014.019a4.167 4.167 0 0 0-.204.31 2.327 2.327 0 0 0-.141.267c-.026.06-.034.092-.037.103v.004a.593.593 0 0 0 .091.248c.075.133.178.272.308.445l.01.012c.118.158.26.347.37.543.112.2.22.455.22.745 0 .188-.065.368-.119.494a3.31 3.31 0 0 1-.202.388 5.444 5.444 0 0 1-.253.382l-.018.025-.005.008-.002.002A.5.5 0 0 1 6.6 4.2l.003-.004.014-.019a4.149 4.149 0 0 0 .204-.31 2.06 2.06 0 0 0 .141-.267c.026-.06.034-.092.037-.103a.593.593 0 0 0-.09-.252A4.334 4.334 0 0 0 6.6 2.8l-.01-.012a5.099 5.099 0 0 1-.37-.543A1.53 1.53 0 0 1 6 1.5c0-.188.065-.368.119-.494.059-.138.134-.274.202-.388a5.446 5.446 0 0 1 .253-.382l.025-.035A.5.5 0 0 1 7.4.8Zm3 0-.003.004-.014.019a4.077 4.077 0 0 0-.204.31 2.337 2.337 0 0 0-.141.267c-.026.06-.034.092-.037.103v.004a.593.593 0 0 0 .091.248c.075.133.178.272.308.445l.01.012c.118.158.26.347.37.543.112.2.22.455.22.745 0 .188-.065.368-.119.494a3.31 3.31 0 0 1-.202.388 5.444 5.444 0 0 1-.253.382l-.018.025-.005.008-.002.002A.5.5 0 0 1 9.6 4.2l.003-.004.014-.019a4.149 4.149 0 0 0 .204-.31 2.06 2.06 0 0 0 .141-.267c.026-.06.034-.092.037-.103a.593.593 0 0 0-.09-.252 4.334 4.334 0 0 0-.308-.445l-.01-.012a5.099 5.099 0 0 1-.37-.543A1.53 1.53 0 0 1 9 1.5c0-.188.065-.368.119-.494.059-.138.134-.274.202-.388a5.446 5.446 0 0 1 .253-.382l.025-.035A.5.5 0 0 1 10.4.8Z"/>
-                                </svg>
-                            </div>
-                            <h4>Ragam Jajanan Nusantara Autentik</h4>
-                            <p class="text-muted">Njajan menghadirkan berbagai pilihan jajanan khas dari seluruh penjuru Nusantara—mulai dari yang legendaris hingga yang jarang ditemukan—disajikan dengan cita rasa otentik dan bahan berkualitas</p>
-                        </div>
-                    </div>
+    <!-- Our Journey -->
+    <section class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-8 md:mb-0 md:pr-8">
+                    <img src="http://njajan.zhaffran.com/img/wafieq-akmal-7q4sipu2UG0-unsplash.jpg" alt="Perjalanan Njajan" class="rounded-lg shadow-xl w-full object-cover h-64 md:h-96">
+                </div>
+                <div class="md:w-1/2">
+                    <h2 class="text-3xl font-bold mb-6 text-[#212529]">Perjalanan Njajan</h2>
+                    <p class="text-gray-700 mb-4">Njajan hadir dari semangat untuk mengangkat kekayaan kuliner lokal ke panggung yang lebih luas. Kami menghadirkan jajanan tradisional dari berbagai daerah di Indonesia—mulai dari pasar lokal hingga pelosok desa—yang diracik dengan standar kebersihan dan rasa yang tinggi, tanpa meninggalkan keaslian cita rasanya.</p>
+                    <p class="text-gray-700 mb-6">Sebagai produk UMKM, Njajan berkomitmen untuk memberdayakan produsen lokal serta mengenalkan kembali kekayaan rasa Nusantara kepada masyarakat modern. Dengan suasana tempat yang elegan dan pelayanan ramah, Njajan tak hanya menjadi tempat makan, tapi juga destinasi kuliner budaya.</p>
+                    <a href="http://njajan.zhaffran.com/about.html" class="inline-block bg-[#212529] hover:bg-[#3E1010] text-white px-6 py-2 rounded-full font-semibold shadow-lg smooth-transition">Pelajari Lebih Lanjut</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#212529] text-gray-100 py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Column 1 -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4 text-white">NJAJAN</h3>
+                    <p class="mb-2">Jl. Keabadian No. 99</p>
+                    <p>Buka setiap hari</p>
                 </div>
                 
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <div class="card-body text-center py-4">
-                            <div class="feature-icon mb-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" class="bi bi-shop" viewBox="0 0 16 16">
-                                    <path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.371 2.371 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976l2.61-3.045zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0zM1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5zM4 15h3v-5H4v5zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3zm3 0h-2v3h2v-3z"/>
-                                </svg>
-                            </div>
-                            <h4>Tempat Nyaman dan Elegan</h4>
-                            <p class="text-muted">Tempat kami didesain dengan nuansa modern dan sentuhan budaya lokal, menciptakan suasana yang nyaman untuk bersantai, berkumpul, atau menikmati waktu luang dengan hidangan khas daerah</p>
-                        </div>
-                    </div>
+                <!-- Column 2 -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4 text-white">Hubungi Kami</h3>
+                    <p class="mb-2"><i class="fas fa-envelope mr-2"></i> info@njajanautentik</p>
+                    <p><i class="fas fa-phone mr-2"></i> (059) 1234-5678</p>
                 </div>
                 
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <div class="card-body text-center py-4">
-                            <div class="feature-icon mb-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" class="bi bi-people" viewBox="0 0 16 16">
-                                    <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8Zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816ZM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"/>
-                                </svg>
-                            </div>
-                            <h4>UMKM dengan Sentuhan Premium</h4>
-                            <p class="text-muted">Sebagai UMKM, kami mengutamakan kualitas dan keunikan produk. Dengan kemasan menarik, rasa istimewa, dan harga yang tetap bersahabat, Njajan siap menjadi pilihan utama bagi pecinta kuliner tradisional yang berkelas.</p>
-                        </div>
+                <!-- Column 3 -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4 text-white">Media Sosial</h3>
+                    <div class="flex space-x-4">
+                        <a href="https://www.instagram.com/upnveteranjawatimur/" class="text-2xl hover:text-amber-300 smooth-transition"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.youtube.com/@UPNVeteranJawaTimurOfficial" class="text-2xl hover:text-amber-300 smooth-transition"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="text-2xl hover:text-amber-300 smooth-transition"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-2xl hover:text-amber-300 smooth-transition"><i class="fab fa-tiktok"></i></a>
                     </div>
                 </div>
             </div>
             
-            <div class="row mt-5">
-                <div class="col-md-6 offset-md-3">
-                    <div class="card border-0 shadow">
-                        <div class="card-body p-4">
-                            <h4 class="text-center mb-4">Jam Operasional</h4>
-                            <div class="row g-0 border-bottom pb-2 mb-2">
-                                <div class="col-6">
-                                    <p class="mb-0 fw-bold">Senin - Jumat</p>
-                                </div>
-                                <div class="col-6 text-end">
-                                    <p class="mb-0">07:00 - 22:00</p>
-                                </div>
-                            </div>
-                            <div class="row g-0 border-bottom pb-2 mb-2">
-                                <div class="col-6">
-                                    <p class="mb-0 fw-bold">Sabtu</p>
-                                </div>
-                                <div class="col-6 text-end">
-                                    <p class="mb-0">08:00 - 23:00</p>
-                                </div>
-                            </div>
-                            <div class="row g-0">
-                                <div class="col-6">
-                                    <p class="mb-0 fw-bold">Minggu</p>
-                                </div>
-                                <div class="col-6 text-end">
-                                    <p class="mb-0">09:00 - 21:00</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="mt-8 pt-6 border-t border-gray-700 text-center">
+                <p>&copy; 2024 Njajan Autentik - All rights reserved</p>
             </div>
         </div>
-    </section>
+    </footer>
 
-    <section class="py-5">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6 mb-4 mb-md-0">
-                    <img src="/img/wafieq-akmal-7q4sipu2UG0-unsplash.jpg" alt="Perjalanan Kopi Kami" class="img-fluid rounded shadow-lg" onerror="this.src='/api/placeholder/600/400'">
-                </div>
-                <div class="col-md-6">
-                    <h2 class="mb-4">Perjalanan Njajan</h2>
-                    <p>Njajan hadir dari semangat untuk mengangkat kekayaan kuliner lokal ke panggung yang lebih luas. Kami menghadirkan jajanan tradisional dari berbagai daerah di Indonesia—mulai dari pasar lokal hingga pelosok desa—yang diracik dengan standar kebersihan dan rasa yang tinggi, tanpa meninggalkan keaslian cita rasanya</p>
-                    <p>Sebagai produk UMKM, Njajan berkomitmen untuk memberdayakan produsen lokal serta mengenalkan kembali kekayaan rasa Nusantara kepada masyarakat modern. Dengan suasana tempat yang elegan dan pelayanan ramah, Njajan tak hanya menjadi tempat makan, tapi juga destinasi kuliner budaya</p>
-                    <a href="/about.html" class="btn btn-primary mt-3">Pelajari Lebih Lanjut</a>
-                </div>
-            </div>
-        </div>
-    </section>
-@endsection
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
