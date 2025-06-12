@@ -36,14 +36,35 @@
                     <a href="/" class="hover:text-amber-100 smooth-transition">Home</a>
                     <a href="/about" class="hover:text-amber-100 smooth-transition">Tentang Kami</a>
                     <a href="/menu" class="hover:text-amber-100 smooth-transition">Menu</a>
+                    <div class="relative">
+                    <button id="userDropdownToggle" class="flex items-center space-x-2 text-white focus:outline-none">
+                        <span>{{ Auth::user()->name }}</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+
+                        <!-- Dropdown menu -->
+                        <div id="userDropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-white border rounded shadow-md z-10">
+                            <form action="{{ route('logout') }}" method="POST" class="block">
+                                @csrf
+                                <button type="submit" class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                    Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            
-            <!-- Mobile Navigation -->
-            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-2">
-                <a href="/" class="block py-2 hover:text-amber-200 smooth-transition">Home</a>
-                <a href="/about" class="block py-2 hover:text-amber-200 smooth-transition">Tentang Kami</a>
-                <a href="/menu" class="block py-2 hover:text-amber-200 smooth-transition">Menu</a>
+
+                <!-- Mobile Navigation -->
+                <div id="mobile-menu" class="hidden md:hidden mt-4 pb-2">
+                    <a href="/" class="block py-2 hover:text-amber-200 smooth-transition">Home</a>
+                    <a href="/about" class="block py-2 hover:text-amber-200 smooth-transition">Tentang Kami</a>
+                    <a href="/menu" class="block py-2 hover:text-amber-200 smooth-transition">Menu</a>
+                    
+                </div>
             </div>
         </div>
     </nav>
@@ -184,6 +205,20 @@
                     });
                 }
             });
+        });
+
+        const toggleBtn = document.getElementById('userDropdownToggle');
+        const menu = document.getElementById('userDropdownMenu');
+
+        toggleBtn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Optional: Tutup dropdown saat klik di luar
+        window.addEventListener('click', function(e) {
+            if (!toggleBtn.contains(e.target) && !menu.contains(e.target)) {
+                menu.classList.add('hidden');
+            }
         });
     </script>
 </body>

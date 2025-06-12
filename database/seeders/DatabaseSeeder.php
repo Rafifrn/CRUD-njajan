@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
                 'password' => bcrypt('password'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
+                'role' => 'user',
             ],
             [
                 'name' => 'rira',
@@ -40,6 +41,15 @@ class DatabaseSeeder extends Seeder
                 'password' => bcrypt('password'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
+                'role' => 'user',
+            ],
+            [
+                'name' => 'admin',
+                'email' => 'admin@example.com',
+                'password' => bcrypt('password'),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+                'role' => 'admin',
             ],
         ]);
 
