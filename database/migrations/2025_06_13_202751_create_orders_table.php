@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('makanans', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('slug')->unique();
-            $table->text('description')->nullable();
-            $table->string('image')->nullable();
-            $table->decimal('price', 10, 2)->nullable();
-            $table->string('region')->nullable();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->json('items'); // Store cart items as JSON
+            $table->decimal('total', 10, 2);
+            $table->string('status')->default('pending');
+            $table->timestamp('order_date');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('makanans');
+        Schema::dropIfExists('orders');
     }
 };

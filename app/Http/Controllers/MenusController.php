@@ -3,16 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Makanan;
+use App\Models\Minuman;
 use Illuminate\Http\Request;
 
-class MakananController extends Controller
+class MenusController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $makanan = Makanan::all();
+        $minuman = Minuman::all();
+
+        return view('admin.menus', compact('makanan', 'minuman'));
     }
 
     /**
@@ -34,7 +38,7 @@ class MakananController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Makanan $makanan)
+    public function show(string $id)
     {
         //
     }
@@ -42,7 +46,7 @@ class MakananController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Makanan $makanan)
+    public function edit(string $id)
     {
         //
     }
@@ -50,7 +54,7 @@ class MakananController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Makanan $makanan)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -58,7 +62,7 @@ class MakananController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Makanan $makanan)
+    public function destroy(string $id)
     {
         //
     }

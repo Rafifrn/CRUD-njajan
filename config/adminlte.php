@@ -323,11 +323,25 @@ return [
             'submenu' => [
                 [
                     'text' => 'Tambah Makanan',
-                    'url' => '#',
+                    'url' => '/admin/makanan/create',
                 ],
                 [
                     'text' => 'Lihat Data',
-                    'url' => '#',
+                    'url' => '/admin/makanan',
+                ],
+            ],
+        ],
+        [
+            'text' => 'Minuman',
+            'icon' => 'fas fa-fw fa-wine-glass',
+            'submenu' => [
+                [
+                    'text' => 'Tambah Minuman',
+                    'url' => '/admin/minuman/create',
+                ],
+                [
+                    'text' => 'Lihat Data',
+                    'url' => '/admin/minuman',
                 ],
             ],
         ],
@@ -337,24 +351,13 @@ return [
             'submenu' => [
                 [
                     'text' => 'Tambah Pengguna',
-                    'url' => '#',
+                    'url' => '/admin/usersCreate',
                 ],
                 [
                     'text' => 'Lihat Pengguna',
-                    'url' => '#',
+                    'url' => '/admin/usersIndex',
                 ],
             ],
-        ],
-        ['header' => 'account_settings'],
-        [
-            'text' => 'profile',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'change_password',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
         ],
     ],
 

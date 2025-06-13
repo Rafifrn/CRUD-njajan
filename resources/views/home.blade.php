@@ -16,69 +16,69 @@
               <div class="col-lg-3 col-6">
                 <!--begin::Small Box Widget 1-->
                 <div class="small-box bg-primary">
-  <div class="inner">
-    <h3>150</h3>
-    <p>Total Order</p>
-  </div>
-  <div class="icon">
-    <i class="fas fa-shopping-cart"></i>
-  </div>
-  <a href="#" class="small-box-footer">
-    More info <i class="fas fa-arrow-circle-right"></i>
-  </a>
-</div>
+                  <div class="inner">
+                    <h3>{{ $totalOrder }}</h3>
+                    <p>Total Order</p>  
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-shopping-cart"></i>
+                  </div>
+                  <a href="/admin/pages" class="small-box-footer">
+                    More info <i class="fas fa-arrow-circle-right"></i>
+                  </a>
+              </div>
                 <!--end::Small Box Widget 1-->
               </div>
               <!--end::Col-->
               <div class="col-lg-3 col-6">
                 <!--begin::Small Box Widget 2-->
                 <div class="small-box bg-gradient-success">
-  <div class="inner">
-    <h3>44</h3>
-    <p>Keuntungan</p>
-  </div>
-  <div class="icon">
-    <i class="fas fa-chart-bar"></i>
-  </div>
-  <a href="#" class="small-box-footer">
-    More info <i class="fas fa-arrow-circle-right"></i>
-  </a>
-</div>
+                  <div class="inner">
+                    <h3>Rp{{ number_format($keuntungan, 0, ',', '.') }}</h3>
+                    <p>Keuntungan</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-chart-bar"></i>
+                  </div>
+                  <a href="/admin/pages" class="small-box-footer">
+                    More info <i class="fas fa-arrow-circle-right"></i>
+                  </a>
+                </div>
                 <!--end::Small Box Widget 2-->
               </div>
               <!--end::Col-->
               <div class="col-lg-3 col-6">
                 <!--begin::Small Box Widget 3-->
                <div class="small-box bg-info">
-  <div class="inner">
-    <h3>44</h3>
-    <p>User Registrations</p>
-  </div>
-  <div class="icon">
-    <i class="fas fa-user-plus"></i>
-  </div>
-  <a href="#" class="small-box-footer">
-    More info <i class="fas fa-arrow-circle-right"></i>
-  </a>
-</div>
+                <div class="inner">
+                  <h3>{{ $totalMenus }}</h3>
+                  <p>Total Makanan</p>
+                </div>
+                <div class="icon">
+                  <i class="fas fa-user-plus"></i>
+                </div>
+                <a href="/admin/makanan" class="small-box-footer">
+                  More info <i class="fas fa-arrow-circle-right"></i>
+                </a>
+              </div>
                 <!--end::Small Box Widget 3-->
               </div>
               <!--end::Col-->
               <div class="col-lg-3 col-6">
-                <!--begin::Small Box Widget 4-->
-                <div class="small-box bg-danger">
-  <div class="inner">
-    <h3>44</h3>
-    <p>Unique Visitors</p>
-  </div>
-  <div class="icon">
-    <i class="fas fa-chart-pie"></i>
-  </div>
-  <a href="#" class="small-box-footer">
-    More info <i class="fas fa-arrow-circle-right"></i>
-  </a>
-</div>
-                <!--end::Small Box Widget 4-->
+                  <!--begin::Small Box Widget 4-->
+                  <div class="small-box bg-danger">
+                  <div class="inner">
+                    <h3>{{ $pendingOrders }}</h3>
+                    <p>Pending Orders</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-chart-pie"></i>
+                  </div>
+                  <a href="/admin/pages" class="small-box-footer">
+                    More info <i class="fas fa-arrow-circle-right"></i>
+                  </a>
+                </div>
+                  <!--end::Small Box Widget 4-->
               </div>
               <!--end::Col-->
             </div>

@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
+
 class IsAdmin
 {
     public function handle($request, Closure $next)
@@ -13,6 +14,6 @@ class IsAdmin
             return $next($request);
         }
 
-        return redirect('/'); // arahkan ke halaman landing kalau bukan admin
+    abort(403, 'Akses ditolak.');
     }
 }
