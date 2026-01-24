@@ -1,0 +1,8 @@
+Login User:
+1. Bisa buat akun
+2. Email: user@example.com
+3. Password: password
+
+Login Admin:
+1. Email: admin@example.com
+2. Password: password
