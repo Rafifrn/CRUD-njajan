@@ -138,7 +138,7 @@
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row items-center">
                 <div class="md:w-1/2 mb-8 md:mb-0 md:pr-8">
-                    <img src="http://njajan.zhaffran.com/img/wafieq-akmal-7q4sipu2UG0-unsplash.jpg" alt="Perjalanan Njajan" class="rounded-lg shadow-xl w-full object-cover h-64 md:h-96">
+                    <img src="{{ asset('storage/foto/wafieq-akmal-7q4sipu2UG0-unsplash.jpg') }}" alt="Perjalanan Njajan" class="rounded-lg shadow-xl w-full object-cover h-64 md:h-96">
                 </div>
                 <div class="md:w-1/2">
                     <h2 class="text-3xl font-bold mb-6 text-[#212529]">Perjalanan Njajan</h2>
