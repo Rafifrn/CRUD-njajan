@@ -1,1 +1,1 @@
-@extends('adminlte::page')
+@extends('admin.layouts.nav')

@@ -1,12 +1,13 @@
 @import 'tailwindcss';
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
-
+/* Coffee palette custom colors */
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    
+    --color-mauve-bark: #5e3e32;
+    --color-dark-coffee: #4c3228;
+    --color-dark-coffee-2: #3a261f;
+    --color-coffee-bean: #281a15;
+    --color-coffee-bean-2: #160e0c;
+    --color-pitch-black: #0d0807;
 }
-

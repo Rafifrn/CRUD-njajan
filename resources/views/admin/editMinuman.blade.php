@@ -1,4 +1,4 @@
-@extends('adminlte::page')
+@extends('admin.layouts.nav')
 
 @section('title', 'Tambah Minuman')
 

@@ -117,7 +117,7 @@
             <div id="cart-container" class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 hidden">
                 <div class="px-6 py-5" style="background-color: #212529;">
                     <h3 class="text-2xl font-bold text-white flex items-center">
-                        <span class="mr-3 text-3xl">🛒</span>
+                        <span class="mr-3 text-3xl"></span>
                         Keranjang Belanja
                         <span id="cart-count" class="ml-3 bg-red-500 text-white text-sm px-2 py-1 rounded-full">0</span>
                     </h3>
@@ -140,7 +140,7 @@
             <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
                 <div class="px-6 py-5" style="background-color: #212529;">
                     <h3 class="text-2xl font-bold text-white flex items-center">
-                        <span class="mr-3 text-3xl">🍽️</span>
+                        <span class="mr-3 text-3xl"></span>
                         Makanan
                         <span class="ml-auto text-sm font-normal text-gray-300">Pilihan Terbaik</span>
                     </h3>
