@@ -35,13 +35,13 @@
                 <!-- Password -->
                 <div class="mb-4">
                     <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password Baru</label>
-                    <input 
+                    <x-password-toggle><input 
                         id="password" 
                         type="password" 
                         name="password" 
                         required
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('password') border-red-500 @enderror"
-                    >
+                        class="w-full pl-4 pr-16 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('password') border-red-500 @enderror"
+                    ></x-password-toggle>
                     @error('password')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
@@ -50,13 +50,13 @@
                 <!-- Confirm Password -->
                 <div class="mb-6">
                     <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-2">Konfirmasi Password</label>
-                    <input 
+                    <x-password-toggle><input 
                         id="password_confirmation" 
                         type="password" 
                         name="password_confirmation" 
                         required
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    >
+                        class="w-full pl-4 pr-16 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    ></x-password-toggle>
                 </div>
 
                 <!-- Submit Button -->

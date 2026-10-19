@@ -65,7 +65,7 @@
                        class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg hover:border-gray-300 transition-all duration-300 group">
                         <div class="h-36 bg-[#212529] flex items-center justify-center">
                             @if ($tenant->logo)
-                                <img src="{{ $tenant->logo }}" alt="{{ $tenant->name }}" class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                <img src="{{ asset('storage/'.$tenant->logo) }}" alt="{{ $tenant->name }}" class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300">
                             @else
                                 <span class="text-5xl">🏪</span>
                             @endif

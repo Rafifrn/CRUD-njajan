@@ -16,22 +16,22 @@
 
     <h4>Daftar Item:</h4>
     <ul>
-        @foreach ($order->items as $item)
-            <li>{{ $item['name'] }} - {{ $item['quantity'] }} x Rp{{ number_format($item['price']) }} = Rp{{ number_format($item['subtotal']) }}</li>
+        @foreach ($order->orderItems as $item)
+            <li>{{ $item->name }} - {{ $item->qty }} x Rp{{ number_format($item->price) }} = Rp{{ number_format($item->subtotal) }}</li>
         @endforeach
     </ul>
 
     <p><strong>Total:</strong> Rp{{ number_format($order->total) }}</p>
-    @if ($order->status !== 'completed')
-    <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST" onsubmit="return confirm('Tandai pesanan sebagai completed?')">
+    @if ($order->status !== 'selesai')
+    <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST" onsubmit="return confirm('Tandai pesanan sebagai selesai?')">
         @csrf
         @method('PATCH')
-        <input type="hidden" name="status" value="completed">
+        <input type="hidden" name="status" value="selesai">
         <button type="submit" class="btn btn-success mt-3">Tandai Selesai</button>
     </form>
 @else
     <div class="alert alert-success mt-3">
-        Pesanan ini sudah <strong>Completed</strong>.
+        Pesanan ini sudah <strong>Selesai</strong>.
     </div>
 @endif
 </div>

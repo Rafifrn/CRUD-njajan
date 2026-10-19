@@ -54,7 +54,6 @@ class AdminTenants extends Component
 
         if ($this->logo) {
             $data['logo'] = $this->logo->store('tenants', 'public');
-            $data['logo'] = \Storage::disk('public')->path($data['logo']);
         }
 
         if ($this->editId) {

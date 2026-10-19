@@ -58,7 +58,7 @@
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Gambar</label>
                     @if ($existingImage)
-                        <img src="{{ $existingImage }}" class="w-full h-32 object-cover rounded-lg mb-2" alt="preview">
+                        <img src="{{ str_starts_with($existingImage, 'http') ? $existingImage : asset('storage/'.$existingImage) }}" class="w-full h-32 object-cover rounded-lg mb-2" alt="preview">
                     @endif
                     <input type="file" wire:model="image" accept="image/*" class="w-full text-sm">
                     @error('image') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
@@ -104,7 +104,7 @@
                                     <td class="px-4 py-2">
                                         <div class="flex items-center gap-2">
                                             @if ($p->image)
-                                                <img src="{{ $p->image }}" class="w-10 h-10 rounded object-cover" alt="">
+                                                <img src="{{ str_starts_with($p->image, 'http') ? $p->image : asset('storage/'.$p->image) }}" class="w-10 h-10 rounded object-cover" alt="">
                                             @endif
                                             <div>
                                                 <p class="font-semibold text-gray-800">{{ $p->name }}</p>
@@ -155,7 +155,7 @@
                                     <td class="px-4 py-2">
                                         <div class="flex items-center gap-2">
                                             @if ($p->image)
-                                                <img src="{{ $p->image }}" class="w-10 h-10 rounded object-cover" alt="">
+                                                <img src="{{ str_starts_with($p->image, 'http') ? $p->image : asset('storage/'.$p->image) }}" class="w-10 h-10 rounded object-cover" alt="">
                                             @endif
                                             <div>
                                                 <p class="font-semibold text-gray-800">{{ $p->name }}</p>

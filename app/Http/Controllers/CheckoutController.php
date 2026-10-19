@@ -151,6 +151,7 @@ class CheckoutController extends Controller
         $payment = Payment::where('group_code', $groupCode)
             ->with('orders.orderItems', 'orders.tenant')
             ->firstOrFail();
+        $this->authorizePayment($payment);
 
         return view('payment.success', compact('payment'));
     }
@@ -163,7 +164,18 @@ class CheckoutController extends Controller
         $payment = Payment::where('group_code', $groupCode)
             ->with('orders')
             ->firstOrFail();
+        $this->authorizePayment($payment);
 
         return view('payment.failed', compact('payment'));
+    }
+
+    private function authorizePayment(Payment $payment): void
+    {
+        $user = request()->user();
+        abort_unless(
+            $user->role === 'admin' || $payment->orders->contains('user_id', $user->id),
+            403,
+            'Akses ditolak.'
+        );
     }
 }

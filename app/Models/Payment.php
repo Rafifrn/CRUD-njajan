@@ -10,7 +10,6 @@ class Payment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'order_id',
         'group_code',
         'xendit_invoice_id',
         'status',

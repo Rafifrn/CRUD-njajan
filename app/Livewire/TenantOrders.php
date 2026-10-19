@@ -52,7 +52,7 @@ class TenantOrders extends Component
 
     public function updateStatus(int $orderId, string $status): void
     {
-        $order = Order::where('tenant_id', $this->tenant()->id)->findOrFail($orderId);
+        $order = Order::where('tenant_id', $this->tenant->id)->findOrFail($orderId);
 
         $valid = ['pending', 'diproses', 'selesai', 'dibatalkan'];
         if (! in_array($status, $valid)) {
@@ -64,26 +64,10 @@ class TenantOrders extends Component
 
     public function render()
     {
-        $tenant = $this->tenant();
-        
-        $ordersAktif = Order::with(['user', 'orderItems'])
-            ->where('tenant_id', $tenant->id)
-            ->whereDate('order_date', $this->tanggal)
-            ->whereIn('status', ['pending', 'diproses'])
-            ->orderBy('order_date', 'asc')
-            ->get();
-
-        $ordersNonaktif = Order::with(['user', 'orderItems'])
-            ->where('tenant_id', $tenant->id)
-            ->whereDate('order_date', $this->tanggal)
-            ->whereIn('status', ['selesai', 'dibatalkan'])
-            ->orderBy('order_date', 'desc')
-            ->get();
-
         return view('livewire.tenant-orders', [
-            'tenant' => $tenant,
-            'ordersAktif' => $ordersAktif,
-            'ordersNonaktif' => $ordersNonaktif,
+            'tenant' => $this->tenant,
+            'ordersAktif' => $this->ordersAktif,
+            'ordersNonaktif' => $this->ordersNonaktif,
         ]);
     }
 }

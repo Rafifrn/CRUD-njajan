@@ -19,6 +19,7 @@ class AdminUsers extends Component
     // Form tambah user/tenant/admin
     public string $name = '';
     public string $email = '';
+    public string $phone = '';
     public string $password = '';
     public string $role = 'user';
     public ?int $tenantId = null;
@@ -28,6 +29,7 @@ class AdminUsers extends Component
         return [
             'name' => 'required|min:2',
             'email' => 'required|email|unique:users,email',
+            'phone' => ['required', 'regex:/^08[0-9]{8,13}$/', 'unique:users,phone'],
             'password' => 'required|min:6',
             'role' => 'required|in:user,tenant,admin',
             'tenantId' => 'required_if:role,tenant|nullable|exists:tenants,id',
@@ -58,12 +60,13 @@ class AdminUsers extends Component
         User::create([
             'name' => $this->name,
             'email' => $this->email,
+            'phone' => $this->phone,
             'password' => Hash::make($this->password),
             'role' => $this->role,
             'tenant_id' => $this->role === 'tenant' ? $this->tenantId : null,
         ]);
 
-        $this->reset(['name', 'email', 'password', 'role', 'tenantId']);
+        $this->reset(['name', 'email', 'phone', 'password', 'role', 'tenantId']);
         $this->role = 'user';
     }
 
@@ -87,11 +90,14 @@ class AdminUsers extends Component
         $users = User::with('tenant')
             ->when($this->search, fn ($q) => $q->where(fn ($q) => $q
                 ->where('name', 'like', "%{$this->search}%")
-                ->orWhere('email', 'like', "%{$this->search}%")))
+                ->orWhere('phone', 'like', "%{$this->search}%")))
             ->when($this->filterRole !== 'semua', fn ($q) => $q->where('role', $this->filterRole))
             ->orderByDesc('created_at')
             ->paginate(15);
 
-        return view('livewire.admin-users', ['users' => $users]);
+        return view('livewire.admin-users', [
+            'users' => $users,
+            'tenants' => $this->tenants(),
+        ]);
     }
 }

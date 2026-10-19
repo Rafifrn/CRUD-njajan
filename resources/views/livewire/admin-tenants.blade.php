@@ -21,7 +21,7 @@
                 <div>
                     <label class="block text-sm font-bold text-gray-800 mb-2">Logo</label>
                     @if ($existingLogo)
-                        <img src="{{ $existingLogo }}" class="w-full h-24 object-cover rounded-lg mb-2" alt="">
+                        <img src="{{ asset('storage/'.$existingLogo) }}" class="w-full h-24 object-cover rounded-lg mb-2" alt="">
                     @endif
                     <input type="file" wire:model="logo" accept="image/*" class="w-full text-sm text-gray-800">
                     @error('logo') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror

@@ -39,26 +39,10 @@ class DatabaseSeeder extends Seeder
             'is_active' => true,
         ]);
 
-        // ===== Users =====
-        User::create([
-            'name' => 'deas',
-            'phone' => '081234567890',
-            'email' => '081234567890@placeholder.local',
-            'password' => bcrypt('password'),
-            'role' => 'user',
-        ]);
-
-        User::create([
-            'name' => 'rira',
-            'phone' => '081234567891',
-            'email' => '081234567891@placeholder.local',
-            'password' => bcrypt('password'),
-            'role' => 'user',
-        ]);
-
+        // ===== Users ====
         User::create([
             'name' => 'admin',
-            'phone' => '081234567892',
+            'phone' => '081234567890',
             'email' => 'admin@example.com',
             'password' => bcrypt('password'),
             'role' => 'admin',

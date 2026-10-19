@@ -20,8 +20,13 @@
                     @error('email') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
                 <div>
+                    <label class="block text-sm font-bold text-gray-800 mb-2">Nomor HP</label>
+                    <input type="text" wire:model="phone" placeholder="08xxxxxxxxxx" class="w-full px-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-deep-forest focus:border-transparent">
+                    @error('phone') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
+                </div>
+                <div>
                     <label class="block text-sm font-bold text-gray-800 mb-2">Password</label>
-                    <input type="password" wire:model="password" class="w-full px-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-deep-forest focus:border-transparent">
+                    <x-password-toggle><input type="password" wire:model="password" class="w-full pl-4 pr-16 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-deep-forest focus:border-transparent"></x-password-toggle>
                     @error('password') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
                 <div>
@@ -53,7 +58,7 @@
         <!-- List -->
         <div class="lg:col-span-2 space-y-3">
             <div class="flex flex-col sm:flex-row gap-3">
-                <input type="text" wire:model.live.debounce.300ms="search" placeholder="Cari nama / email..."
+                <input type="text" wire:model.live.debounce.300ms="search" placeholder="Cari nama / no. HP..."
                        class="flex-1 px-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-deep-forest focus:border-transparent">
                 <select wire:model.live="filterRole" class="px-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-deep-forest focus:border-transparent">
                     <option value="semua">Semua Role</option>
@@ -68,7 +73,7 @@
                     <thead>
                         <tr class="text-left bg-gray-900 text-white">
                             <th class="px-5 py-4 font-bold">Nama</th>
-                            <th class="px-5 py-4 font-bold">Email</th>
+                            <th class="px-5 py-4 font-bold">No. HP</th>
                             <th class="px-5 py-4 font-bold">Role</th>
                             <th class="px-5 py-4 font-bold">Tenant</th>
                             <th class="px-5 py-4 font-bold text-right">Aksi</th>
@@ -78,7 +83,7 @@
                         @forelse ($users as $u)
                             <tr class="border-t border-gray-200/20 hover:bg-green-50/20 transition">
                                 <td class="px-5 py-4 font-bold text-gray-800">{{ $u->name }}</td>
-                                <td class="px-5 py-4 text-gray-600">{{ $u->email }}</td>
+                                <td class="px-5 py-4 text-gray-600">{{ $u->phone ?? '-' }}</td>
                                 <td class="px-5 py-4">
                                     <span class="px-3 py-1 text-xs font-bold rounded-full {{ $u->role === 'admin' ? 'bg-gray-900 text-white' : ($u->role === 'tenant' ? 'bg-amber-100 text-gray-800' : 'bg-green-50 text-gray-900') }}">
                                         {{ ucfirst($u->role) }}
