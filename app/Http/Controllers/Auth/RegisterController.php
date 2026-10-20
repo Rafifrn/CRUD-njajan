@@ -19,6 +19,15 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    // No auto-login: send the new user to the login page to sign in
+    public function register(\Illuminate\Http\Request $request)
+    {
+        $this->validator($request->all())->validate();
+        event(new \Illuminate\Auth\Events\Registered($this->create($request->all())));
+
+        return redirect()->route('login')->with('status', 'Pendaftaran berhasil. Silakan masuk.');
+    }
+
     protected function validator(array $data)
     {
         return Validator::make($data, [

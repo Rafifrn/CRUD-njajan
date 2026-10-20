@@ -1,5 +1,6 @@
 @extends('layouts.user')
 @section('title', 'Pesanan Saya — Njajan')
+@section('live', 'data-live')
 @section('content')
 <h1 class="page-title">Pesanan Saya</h1>
 <p class="page-sub mb-6">Status pesanan hari ini · {{ now()->translatedFormat('d F Y') }}</p>

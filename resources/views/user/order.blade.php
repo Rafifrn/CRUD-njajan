@@ -1,5 +1,5 @@
 @extends('layouts.user')
-@section('title', 'Pesan — Njajan')
+@section('title', 'Menu — Njajan')
 
 @section('content')
 @php
@@ -7,7 +7,7 @@
         ->concat(collect($minumans)->map(fn ($m) => ['type' => 'minuman', 'cat' => 'minuman', 'm' => $m]));
 @endphp
 
-<h1 class="page-title mb-6">Pesan</h1>
+<h1 class="page-title mb-6">Menu</h1>
 
 <div class="mb-6 flex flex-col md:flex-row md:items-center gap-3 md:gap-6 border-b border-warm-sand">
     <div class="flex gap-6 overflow-x-auto -mb-px [scrollbar-width:none]" role="group" aria-label="Kategori">
@@ -109,7 +109,9 @@
 
 @section('scripts')
 <script>
-const cart = {};
+// cart survives navigating to other pages (sessionStorage = per browser tab)
+let cart = {};
+try { cart = JSON.parse(sessionStorage.getItem('njajan-cart')) || {}; } catch (e) {}
 let activeCat = 'semua', activeTenant = @json(request('tenant') ?? 'semua');
 const rp = (n) => 'Rp' + n.toLocaleString('id-ID');
 const $ = (s, r = document) => r.querySelector(s);
@@ -202,6 +204,7 @@ function render() {
     $('#cart-note').textContent = '';
     $('#cart-empty').classList.toggle('hidden', count > 0);
     $('#cart-foot').classList.toggle('hidden', count === 0);
+    try { sessionStorage.setItem('njajan-cart', JSON.stringify(cart)); } catch (e) {}
     syncModal();
 }
 
@@ -222,6 +225,7 @@ $('#checkout-btn').addEventListener('click', async () => {
         });
         const r = await res.json();
         if (!r.success) throw new Error(r.message || 'Terjadi kesalahan');
+        try { sessionStorage.removeItem('njajan-cart'); } catch (e) {}
         window.location.href = r.redirect_url || @json(route('pesanan'));
     } catch (e) {
         err.textContent = 'Gagal: ' + e.message; err.classList.remove('hidden');
@@ -229,6 +233,12 @@ $('#checkout-btn').addEventListener('click', async () => {
     }
 });
 
+// drop saved items that are no longer on sale, refresh name/price from the live menu
+Object.keys(cart).forEach((key) => {
+    const [type, id] = key.split('-'), b = $(`.add-btn[data-type="${type}"][data-id="${id}"]`);
+    if (!b) return void delete cart[key];
+    Object.assign(cart[key], { name: b.dataset.name, price: +b.dataset.price, tenant: b.dataset.tenant });
+});
 applyFilters(); render();
 </script>
 @endsection

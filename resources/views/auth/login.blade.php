@@ -3,6 +3,7 @@
 @section('content')
 <form method="POST" action="{{ route('login') }}" class="space-y-4 auth-rise">
     @csrf
+    @if (session('status'))<p class="rounded-xl bg-sage-mist px-4 py-3 text-sm font-semibold" role="status">{{ session('status') }}</p>@endif
     <div>
         <label for="phone" class="block text-sm font-semibold mb-1.5">Nomor HP</label>
         <input id="phone" type="tel" inputmode="numeric" name="phone" value="{{ old('phone') }}" required autofocus autocomplete="tel" placeholder="08xxxxxxxxxx"

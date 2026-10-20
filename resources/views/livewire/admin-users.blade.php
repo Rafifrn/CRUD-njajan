@@ -1,4 +1,4 @@
-<div class="space-y-6">
+<div wire:poll.15s.visible class="space-y-6">
     <div>
         <h1 class="page-title">Kelola User</h1>
         <p class="page-sub">User, tenant (kasir), dan admin.</p>

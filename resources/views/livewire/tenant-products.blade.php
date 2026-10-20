@@ -1,4 +1,4 @@
-<div class="space-y-6">
+<div wire:poll.15s.visible class="space-y-6">
     <div>
         <h1 class="page-title">Produk — {{ $tenant->name }}</h1>
         <p class="page-sub">Kelola makanan, jajanan, dan minuman tenant kamu.</p>

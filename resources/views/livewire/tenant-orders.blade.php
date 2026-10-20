@@ -1,4 +1,4 @@
-<div class="space-y-6">
+<div wire:poll.5s.visible class="space-y-6">
     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div>
             <h1 class="page-title">Pesanan — {{ $tenant->name }}</h1>

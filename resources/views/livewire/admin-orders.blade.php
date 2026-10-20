@@ -1,4 +1,4 @@
-<div class="space-y-6">
+<div wire:poll.5s.visible class="space-y-6">
     <div>
         <h1 class="page-title">Semua Pesanan</h1>
         <p class="page-sub">Monitor semua order lintas tenant.</p>

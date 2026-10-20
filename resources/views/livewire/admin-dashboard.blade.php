@@ -1,4 +1,4 @@
-<div class="space-y-8">
+<div wire:poll.5s.visible class="space-y-8">
     <div>
         <h1 class="page-title">Dashboard Admin</h1>
         <p class="page-sub">Ringkasan aktivitas aplikasi Njajan.</p>

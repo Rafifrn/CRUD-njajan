@@ -1,5 +1,6 @@
 @extends('layouts.user')
 @section('title', 'Riwayat Pesanan — Njajan')
+@section('live', 'data-live')
 @section('content')
 <h1 class="page-title">Riwayat Pesanan</h1>
 <p class="page-sub mb-6">Semua pesanan yang pernah kamu buat.</p>
