@@ -1,72 +1,35 @@
 @extends('layouts.user')
-
-@section('title', 'History Pesanan - Njajan')
-
+@section('title', 'Riwayat Pesanan — Njajan')
 @section('content')
-<div class="min-h-screen">
-    <div class="container mx-auto px-4 py-12">
-        <div class="mb-12">
-            <h1 class="text-4xl font-normal text-forest-shadow mb-3">History Pesanan</h1>
-            <p class="text-lg text-warm-gray">Semua riwayat pesanan kamu.</p>
-        </div>
-
-        <div class="bg-white rounded-xl shadow-sm border border-warm-gray/20 overflow-hidden">
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm">
-                    <thead class="text-left bg-deep-forest">
-                        <tr class="text-white">
-                            <th class="px-5 py-4 font-bold">Kode</th>
-                            <th class="px-5 py-4 font-bold">Tanggal</th>
-                            <th class="px-5 py-4 font-bold">Tenant</th>
-                            <th class="px-5 py-4 font-bold">Total</th>
-                            <th class="px-5 py-4 font-bold">Status</th>
-                            <th class="px-5 py-4 font-bold">Struk</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($orders as $order)
-                            <tr class="border-t border-warm-gray/20 hover:bg-sage-mist/20 transition">
-                                <td class="px-5 py-4 font-bold text-forest-shadow">{{ $order->kode }}</td>
-                                <td class="px-5 py-4 text-warm-gray">{{ $order->order_date->translatedFormat('d M Y, H:i') }}</td>
-                                <td class="px-5 py-4 text-forest-shadow">{{ $order->tenant->name ?? '-' }}</td>
-                                <td class="px-5 py-4 font-bold text-deep-forest">Rp{{ number_format($order->total, 0, ',', '.') }}</td>
-                                <td class="px-5 py-4">
-                                    @if ($order->status === 'selesai')
-                                        <span class="px-3 py-1 text-xs font-bold rounded-full bg-lime-glow text-deep-forest">Selesai</span>
-                                    @elseif ($order->status === 'diproses')
-                                        <span class="px-3 py-1 text-xs font-bold rounded-full bg-warm-sand text-forest-shadow">Diproses</span>
-                                    @elseif ($order->status === 'pending')
-                                        <span class="px-3 py-1 text-xs font-bold rounded-full bg-sage-mist text-deep-forest">Pending</span>
-                                    @else
-                                        <span class="px-3 py-1 text-xs font-bold rounded-full bg-red-100 text-red-700">Dibatalkan</span>
-                                    @endif
-                                </td>
-                                <td class="px-5 py-4">
-                                    @if ($order->payment_status === 'paid')
-                                        <a href="{{ route('struk', $order->payment_group) }}" class="text-deep-forest hover:text-deep-forest/80 font-bold transition">
-                                            📄 Struk
-                                        </a>
-                                    @else
-                                        <span class="text-warm-gray">-</span>
-                                    @endif
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6" class="px-5 py-16 text-center">
-                                    <p class="text-6xl mb-4">📋</p>
-                                    <p class="text-lg text-warm-gray">Belum ada riwayat pesanan.</p>
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="mt-8">
-            {{ $orders->links() }}
-        </div>
+<h1 class="page-title">Riwayat Pesanan</h1>
+<p class="page-sub mb-6">Semua pesanan yang pernah kamu buat.</p>
+<div class="card overflow-hidden">
+    <div>
+        <table class="w-full text-sm max-md:block">
+            <thead class="table-head text-left max-md:hidden"><tr>
+                <th scope="col" class="px-5 py-3.5">Kode</th><th scope="col" class="px-5 py-3.5">Tanggal</th><th scope="col" class="px-5 py-3.5">Tenant</th>
+                <th scope="col" class="px-5 py-3.5">Total</th><th scope="col" class="px-5 py-3.5">Status</th><th scope="col" class="px-5 py-3.5">Struk</th>
+            </tr></thead>
+            <tbody class="max-md:block">
+            @forelse ($orders as $order)
+                <tr class="border-t border-warm-sand/60 hover:bg-sage-mist/40 max-md:grid max-md:grid-cols-2 max-md:items-center max-md:gap-y-1.5 max-md:p-4">
+                    <td class="max-md:p-0 max-md:order-1 px-5 py-3.5 font-bold">{{ $order->kode }}</td>
+                    <td class="max-md:p-0 max-md:order-4 max-md:text-right max-md:text-xs px-5 py-3.5 text-warm-gray whitespace-nowrap">{{ $order->order_date->translatedFormat('d M Y, H:i') }}</td>
+                    <td class="max-md:p-0 max-md:order-3 max-md:text-warm-gray px-5 py-3.5">{{ $order->tenant->name ?? '-' }}</td>
+                    <td class="max-md:p-0 max-md:order-5 max-md:text-lg px-5 py-3.5 font-bold whitespace-nowrap">Rp{{ number_format($order->total, 0, ',', '.') }}</td>
+                    <td class="max-md:p-0 max-md:order-2 max-md:justify-self-end px-5 py-3.5">@include('partials.order-status', ['status' => $order->status])</td>
+                    <td class="max-md:p-0 max-md:order-6 max-md:justify-self-end px-5 py-3.5">
+                        @if ($order->payment_status === 'paid')
+                            <a href="{{ route('struk', $order->payment_group) }}" class="inline-flex items-center gap-1.5 font-bold text-mauve-bark hover:underline"><x-icon name="receipt" class="w-4 h-4" /> Struk</a>
+                        @else <span class="text-warm-gray">-</span> @endif
+                    </td>
+                </tr>
+            @empty
+                <tr class="max-md:block"><td colspan="6" class="max-md:block px-5 py-16 text-center text-warm-gray"><x-icon name="clipboard" class="w-10 h-10 mx-auto mb-2" />Belum ada riwayat pesanan.</td></tr>
+            @endforelse
+            </tbody>
+        </table>
     </div>
 </div>
+<div class="mt-6">{{ $orders->links() }}</div>
 @endsection

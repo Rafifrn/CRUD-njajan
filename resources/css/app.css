@@ -1,9 +1,11 @@
 @import 'tailwindcss';
 
-/* Coffee palette custom colors */
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
-    
+    /* Airbnb typography: Inter is the documented substitute for Cereal VF */
+    --font-sans: 'Inter', -apple-system, system-ui, Roboto, 'Helvetica Neue', sans-serif;
+    --font-display: 'Inter', -apple-system, system-ui, Roboto, sans-serif;
+
+    /* Warm coffee palette */
     --color-mauve-bark: #5e3e32;
     --color-dark-coffee: #4c3228;
     --color-dark-coffee-2: #3a261f;
@@ -11,11 +13,76 @@
     --color-coffee-bean-2: #160e0c;
     --color-pitch-black: #0d0807;
 
-    --color-deep-forest: #00473c;
-    --color-lime-glow: #e6ff55;
-    --color-sage-mist: #d8e5d6;
-    --color-warm-sand: #e8dcc6;
-    --color-cream-canvas: #f4f3e7;
-    --color-forest-shadow: #0e150e;
-    --color-warm-gray: #8c8c82;
+    /* Semantic aliases (kept so older views inherit the palette) */
+    --color-deep-forest: #4c3228;
+    --color-forest-shadow: #281a15;
+    --color-lime-glow: #f2b33d;
+    --color-sage-mist: #f3e8d8;
+    --color-warm-sand: #e6d3b8;
+    --color-cream-canvas: #faf5ee;
+    --color-warm-gray: #6f5d52;
+}
+
+@layer base {
+    html { scroll-behavior: smooth; }
+    body { @apply bg-cream-canvas text-forest-shadow font-sans antialiased; }
+    h1, h2 { font-family: var(--font-display); font-weight: 700; letter-spacing: -.01em; }
+    :focus-visible { outline: 2px solid var(--color-lime-glow); outline-offset: 2px; }
+    button, a, select, summary { cursor: pointer; }
+    @media (prefers-reduced-motion: reduce) {
+        *, ::before, ::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+    }
+}
+
+@layer components {
+    .btn { @apply inline-flex items-center justify-center gap-2 min-h-12 rounded-lg px-6 text-base font-medium transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed; }
+    .btn-primary { @apply bg-lime-glow text-coffee-bean hover:bg-amber-400; }
+    .btn-dark { @apply bg-coffee-bean text-amber-50 hover:bg-mauve-bark; }
+    .btn-soft { @apply bg-sage-mist text-deep-forest hover:bg-warm-sand; }
+    .btn-danger { @apply bg-red-700 text-white hover:bg-red-800; }
+    .btn-sm { @apply min-h-9 px-4 text-sm; }
+    .card { @apply bg-white rounded-[14px] border border-warm-sand/60; }
+    .card:is(a):hover { box-shadow: rgba(0,0,0,.02) 0 0 0 1px, rgba(0,0,0,.04) 0 2px 6px, rgba(0,0,0,.1) 0 4px 8px; }
+    .field { @apply rounded-lg border border-warm-sand bg-white px-3 py-3.5 text-forest-shadow placeholder:text-warm-gray/70 focus:outline-none focus:border-mauve-bark focus:ring-2 focus:ring-lime-glow/60; }
+    .badge { @apply inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold; }
+    .table-head { @apply bg-coffee-bean text-amber-50; }
+    .page-title { @apply text-2xl md:text-[28px] text-forest-shadow; }
+    .page-sub { @apply text-warm-gray mt-1; }
+}
+
+/* ---- Auth pages ---- */
+@view-transition { navigation: auto; }
+@keyframes auth-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes auth-pop { 0% { opacity: 0; transform: translateY(40px) rotate(-8deg) scale(.7); } 60% { transform: translateY(-6px) rotate(2deg) scale(1.05); } 100% { opacity: 1; transform: none; } }
+@keyframes auth-float { 0%, 100% { transform: translate3d(0, 0, 0) scale(1); } 50% { transform: translate3d(36px, -44px, 0) scale(1.12); } }
+@layer components {
+    .auth-blob { @apply absolute rounded-full blur-3xl pointer-events-none; animation: auth-float 14s ease-in-out infinite; }
+    .auth-letter { @apply inline-block; animation: auth-pop .9s cubic-bezier(.22, 1, .36, 1) both; transition: transform .3s cubic-bezier(.22, 1, .36, 1); }
+    .auth-letter:hover { transform: translateY(-8px) rotate(-4deg); }
+    .auth-card { animation: auth-rise .8s .25s cubic-bezier(.22, 1, .36, 1) both; }
+    .auth-rise > * { animation: auth-rise .7s cubic-bezier(.22, 1, .36, 1) both; }
+    .auth-rise > :nth-child(1) { animation-delay: .4s; }
+    .auth-rise > :nth-child(2) { animation-delay: .48s; }
+    .auth-rise > :nth-child(3) { animation-delay: .56s; }
+    .auth-rise > :nth-child(4) { animation-delay: .64s; }
+    .auth-rise > :nth-child(5) { animation-delay: .72s; }
+    .auth-rise > :nth-child(6) { animation-delay: .8s; }
+    .auth-input { @apply w-full rounded-xl border border-transparent bg-sage-mist/60 px-4 py-3.5 text-forest-shadow placeholder:text-warm-gray/70 focus:outline-none focus:border-mauve-bark focus:ring-2 focus:ring-lime-glow/60 transition duration-300 focus:bg-white focus:-translate-y-0.5 focus:shadow-lg focus:shadow-amber-900/10; }
+    .auth-btn { @apply inline-flex items-center justify-center min-h-12 w-full rounded-xl bg-coffee-bean text-amber-50 font-medium disabled:opacity-60 transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-amber-900/20 active:translate-y-0 active:scale-[.98]; }
+    .auth-link { @apply font-bold text-coffee-bean bg-[linear-gradient(currentColor,currentColor)] bg-[length:100%_2px] bg-bottom bg-no-repeat transition-[background-size] duration-300 hover:bg-[length:100%_100%] hover:text-white px-0.5 -mx-0.5; }
+}
+
+/* ---- Home ---- */
+@keyframes marquee { to { transform: translateX(-50%); } }
+@keyframes reveal { from { opacity: 0; transform: translateY(32px) scale(.97); } to { opacity: 1; transform: none; } }
+@layer components {
+    .marquee-track { @apply flex w-max gap-3; animation: marquee 30s linear infinite; }
+    .marquee:hover .marquee-track { animation-play-state: paused; }
+    /* scroll-reveal without JS; browsers lacking scroll timelines simply show the cards */
+    @supports (animation-timeline: view()) {
+        .reveal { animation: reveal linear both; animation-timeline: view(); animation-range: entry 0% entry 45%; }
+    }
+    .tenant-card { @apply bg-white rounded-[14px] border border-warm-sand/60 overflow-hidden block transition duration-500 ease-out hover:-translate-y-1.5; }
+    .tenant-card img { @apply transition duration-700 ease-out group-hover:scale-110; }
+    .tenant-arrow { @apply grid place-items-center w-9 h-9 rounded-full bg-sage-mist transition duration-300 group-hover:bg-coffee-bean group-hover:text-amber-50 group-hover:translate-x-1; }
 }

@@ -20,12 +20,21 @@ class AdminTenants extends Component
     public string $existingLogo = '';
     public bool $isActive = true;
 
+    protected function messages(): array
+    {
+        return [
+            'image.max' => 'Ukuran gambar maksimal 1 MB.',
+            'image.dimensions' => 'Gambar harus persegi (rasio 1:1).',
+            'logo.max' => 'Ukuran logo maksimal 10 MB.',
+        ];
+    }
+
     protected function rules(): array
     {
         return [
             'name' => 'required|min:2',
             'description' => 'nullable',
-            'logo' => 'nullable|image|max:2048',
+            'logo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240',
         ];
     }
 
@@ -53,7 +62,7 @@ class AdminTenants extends Component
         ];
 
         if ($this->logo) {
-            $data['logo'] = $this->logo->store('tenants', 'public');
+            $data['logo'] = \App\Services\SquareImage::store($this->logo, 'tenants');
         }
 
         if ($this->editId) {

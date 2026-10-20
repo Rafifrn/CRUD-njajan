@@ -27,6 +27,15 @@ class TenantProducts extends Component
     public string $existingImage = '';
     public bool $isAvailable = true;
 
+    protected function messages(): array
+    {
+        return [
+            'image.max' => 'Ukuran gambar maksimal 10 MB.',
+            'logo.max' => 'Ukuran logo maksimal 1 MB.',
+            'logo.dimensions' => 'Logo harus persegi (rasio 1:1).',
+        ];
+    }
+
     protected function rules(): array
     {
         return [
@@ -34,7 +43,7 @@ class TenantProducts extends Component
             'description' => 'nullable',
             'price' => 'required|numeric|min:0',
             'formCategory' => 'required|in:makanan,jajanan,minuman',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240',
         ];
     }
 
@@ -101,7 +110,7 @@ class TenantProducts extends Component
         ];
 
         if ($this->image) {
-            $data['image'] = $this->image->store('produk', 'public');
+            $data['image'] = \App\Services\SquareImage::store($this->image, 'produk');
         }
 
         if ($this->formType === 'makanan') {

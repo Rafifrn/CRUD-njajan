@@ -1,73 +1,23 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reset Password - {{ config('app.name') }}</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center">
-    <div class="w-full max-w-md">
-        <div class="bg-white rounded-lg shadow-lg p-8">
-            <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Reset Password</h2>
-
-            <form method="POST" action="{{ route('password.update') }}">
-                @csrf
-                <input type="hidden" name="token" value="{{ $token }}">
-
-                <!-- Email -->
-                <div class="mb-4">
-                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                    <input 
-                        id="email" 
-                        type="email" 
-                        name="email" 
-                        value="{{ $email ?? old('email') }}" 
-                        required 
-                        autofocus
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('email') border-red-500 @enderror"
-                    >
-                    @error('email')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- Password -->
-                <div class="mb-4">
-                    <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password Baru</label>
-                    <x-password-toggle><input 
-                        id="password" 
-                        type="password" 
-                        name="password" 
-                        required
-                        class="w-full pl-4 pr-16 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('password') border-red-500 @enderror"
-                    ></x-password-toggle>
-                    @error('password')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- Confirm Password -->
-                <div class="mb-6">
-                    <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-2">Konfirmasi Password</label>
-                    <x-password-toggle><input 
-                        id="password_confirmation" 
-                        type="password" 
-                        name="password_confirmation" 
-                        required
-                        class="w-full pl-4 pr-16 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    ></x-password-toggle>
-                </div>
-
-                <!-- Submit Button -->
-                <button 
-                    type="submit" 
-                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
-                >
-                    Reset Password
-                </button>
-            </form>
-        </div>
+@extends('layouts.auth')
+@section('title', 'Reset Password')
+@section('content')
+<form method="POST" action="{{ route('password.update') }}" class="space-y-4">
+    @csrf
+    <input type="hidden" name="token" value="{{ $token }}">
+    <div>
+        <label for="email" class="block text-sm font-bold mb-1.5">Email</label>
+        <input id="email" type="email" name="email" value="{{ $email ?? old('email') }}" required autofocus class="field w-full @error('email') border-red-600 @enderror">
+        @error('email')<p class="text-red-700 text-sm mt-1" role="alert">{{ $message }}</p>@enderror
     </div>
-</body>
-</html>
+    <div>
+        <label for="password" class="block text-sm font-bold mb-1.5">Password Baru</label>
+        <x-password-toggle><input id="password" type="password" name="password" required autocomplete="new-password" class="field w-full pl-4 pr-16"></x-password-toggle>
+        @error('password')<p class="text-red-700 text-sm mt-1" role="alert">{{ $message }}</p>@enderror
+    </div>
+    <div>
+        <label for="password_confirmation" class="block text-sm font-bold mb-1.5">Konfirmasi Password</label>
+        <x-password-toggle><input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password" class="field w-full pl-4 pr-16"></x-password-toggle>
+    </div>
+    <button type="submit" class="btn btn-primary w-full">Reset Password</button>
+</form>
+@endsection

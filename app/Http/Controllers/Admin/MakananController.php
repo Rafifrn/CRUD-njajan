@@ -36,7 +36,7 @@ class MakananController extends Controller
         'description' => 'nullable|string',
         'price' => 'required|numeric',
         'region' => 'required|string|max:255',
-        'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240',
     ]);
 
     $slug = Str::slug($request->name); // otomatis generate slug
@@ -49,7 +49,7 @@ class MakananController extends Controller
 
     $imagePath = null;
     if ($request->hasFile('image')) {
-        $imagePath = $request->file('image')->store('makanan', 'public');
+        $imagePath = \App\Services\SquareImage::store($request->file('image'), 'makanan');
     }
 
     Makanan::create([
@@ -93,13 +93,13 @@ class MakananController extends Controller
         'description' => 'nullable|string',
         'price' => 'required|numeric',
         'region' => 'required|string|max:255',
-        'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240',
     ]);
 
     $slug = Str::slug($request->name);
 
     if ($request->hasFile('image')) {
-        $imagePath = $request->file('image')->store('makanan', 'public');
+        $imagePath = \App\Services\SquareImage::store($request->file('image'), 'makanan');
         $makanan->image = $imagePath;
     }
 

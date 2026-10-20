@@ -1,107 +1,58 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Njajan — Tenant UMKM</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body class="font-sans bg-amber-50">
-    <!-- Navigation -->
-    <nav class="bg-coffee-bean text-amber-50 shadow-lg sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-3">
-            <div class="flex justify-between items-center">
-                <a href="{{ route('home') }}" class="text-2xl font-bold">NJAJAN</a>
-
-                <button id="mobile-menu-button" class="md:hidden focus:outline-none">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
-
-                <div class="hidden md:flex space-x-6 items-center">
-                    <a href="{{ route('home') }}" class="hover:text-amber-300 transition">Home</a>
-                    <a href="{{ route('order') }}" class="hover:text-amber-300 transition">Order</a>
-                    <a href="{{ route('pesanan') }}" class="hover:text-amber-300 transition">Pesanan</a>
-                    <a href="{{ route('history') }}" class="hover:text-amber-300 transition">History</a>
-                    <div class="relative">
-                        <button id="userDropdownToggle" class="flex items-center space-x-2 text-amber-50 focus:outline-none">
-                            <span>{{ Auth::user()->name }}</span>
-                            <i class="fas fa-chevron-down text-xs"></i>
-                        </button>
-                        <div id="userDropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-white border rounded shadow-md z-10">
-                            <form action="{{ route('logout') }}" method="POST" class="block">
-                                @csrf
-                                <button type="submit" class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
-                                    Logout
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-2 space-y-1">
-                <a href="{{ route('home') }}" class="block py-2 hover:text-amber-300">Home</a>
-                <a href="{{ route('order') }}" class="block py-2 hover:text-amber-300">Order</a>
-                <a href="{{ route('pesanan') }}" class="block py-2 hover:text-amber-300">Pesanan</a>
-                <a href="{{ route('history') }}" class="block py-2 hover:text-amber-300">History</a>
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button type="submit" class="block py-2 hover:text-amber-300">Logout</button>
-                </form>
-            </div>
-        </div>
-    </nav>
-
-    <div class="min-h-screen bg-amber-50">
-        <div class="container mx-auto px-4 py-8">
-            <h1 class="text-3xl font-bold text-gray-800 mb-2">Tenant UMKM</h1>
-            <p class="text-gray-600 mb-8">Pilih tenant favoritmu, atau langsung jelajahi semua menu di halaman Order.</p>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                @forelse ($tenants as $tenant)
-                    <a href="{{ route('order') }}?tenant={{ $tenant->slug }}"
-                       class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg hover:border-gray-300 transition-all duration-300 group">
-                        <div class="h-36 bg-[#212529] flex items-center justify-center">
-                            @if ($tenant->logo)
-                                <img src="{{ asset('storage/'.$tenant->logo) }}" alt="{{ $tenant->name }}" class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300">
-                            @else
-                                <span class="text-5xl">🏪</span>
-                            @endif
-                        </div>
-                        <div class="p-4">
-                            <h3 class="text-lg font-bold text-gray-800 group-hover:text-gray-900">{{ $tenant->name }}</h3>
-                            <p class="text-sm text-gray-600 line-clamp-2 mb-3">{{ $tenant->description }}</p>
-                            <div class="flex items-center gap-3 text-xs text-gray-500">
-                                <span class="px-2 py-1 bg-gray-100 rounded-full">{{ $tenant->makanans_count }} makanan</span>
-                                <span class="px-2 py-1 bg-gray-100 rounded-full">{{ $tenant->minumen_count }} minuman</span>
-                            </div>
-                        </div>
-                    </a>
-                @empty
-                    <div class="col-span-full text-center py-16 text-gray-500">
-                        <p class="text-5xl mb-4">🏪</p>
-                        <p>Belum ada tenant yang tersedia.</p>
-                    </div>
-                @endforelse
-            </div>
-        </div>
+@extends('layouts.user')
+@section('title', 'Beranda — Njajan')
+@section('content')
+<section class="relative isolate overflow-hidden rounded-[2rem] bg-gradient-to-br from-coffee-bean to-mauve-bark text-amber-50 px-6 py-14 md:px-14 md:py-24 mb-8">
+    <div aria-hidden="true">
+        <div class="auth-blob w-72 h-72 bg-lime-glow/40 -top-16 -right-10"></div>
+        <div class="auth-blob w-80 h-80 bg-amber-200/20 -bottom-24 left-1/4" style="animation-delay:-6s"></div>
     </div>
+    <div class="auth-rise">
+        <p class="inline-block rounded-full bg-white/10 backdrop-blur px-4 py-1.5 text-sm font-semibold mb-5">Halo, {{ Str::before(Auth::user()->name, ' ') }}</p>
+        <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter leading-[1.02] max-w-3xl">Jajan apa <span class="text-lime-glow">hari ini?</span></h1>
+        <p class="mt-5 text-amber-100/90 max-w-xl text-lg">Pilih tenant UMKM favoritmu, atau langsung jelajahi semua menu dalam satu keranjang.</p>
+        <a href="{{ route('order') }}" class="group mt-8 inline-flex items-center gap-3 rounded-full bg-lime-glow text-coffee-bean font-bold pl-7 pr-2 py-2 transition duration-300 hover:bg-amber-300 hover:shadow-xl hover:shadow-black/30 active:scale-95">
+            Lihat Semua Menu
+            <span class="grid place-items-center w-10 h-10 rounded-full bg-coffee-bean text-amber-50 transition duration-300 group-hover:translate-x-1"><x-icon name="arrow" class="w-5 h-5" /></span>
+        </a>
+    </div>
+</section>
 
-    <script>
-        document.getElementById('mobile-menu-button').addEventListener('click', function() {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
-        });
+@if ($tenants->count())
+<div class="marquee overflow-hidden mb-12 [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]" aria-hidden="true">
+    <div class="marquee-track">
+        @foreach ([1, 2] as $_)
+            @foreach ($tenants as $tenant)
+                <span class="rounded-full border border-warm-sand bg-white px-5 py-2 text-sm font-semibold whitespace-nowrap">{{ $tenant->name }}</span>
+            @endforeach
+        @endforeach
+    </div>
+</div>
+@endif
 
-        const toggleBtn = document.getElementById('userDropdownToggle');
-        const menu = document.getElementById('userDropdownMenu');
-        toggleBtn.addEventListener('click', () => menu.classList.toggle('hidden'));
-        window.addEventListener('click', function(e) {
-            if (!toggleBtn.contains(e.target) && !menu.contains(e.target)) {
-                menu.classList.add('hidden');
-            }
-        });
-    </script>
-</body>
-</html>
+<h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-6">Tenant UMKM</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+    @forelse ($tenants as $tenant)
+        <a href="{{ route('order') }}?tenant={{ $tenant->slug }}" class="tenant-card group reveal">
+            <div class="aspect-square bg-coffee-bean flex items-center justify-center overflow-hidden">
+                @if ($tenant->logo)
+                    <img src="{{ asset('storage/'.$tenant->logo) }}" alt="" loading="lazy" class="h-full w-full object-cover">
+                @else
+                    <x-icon name="store" class="w-12 h-12 text-lime-glow" />
+                @endif
+            </div>
+            <div class="p-4 flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h3 class="font-bold text-lg truncate">{{ $tenant->name }}</h3>
+                    <p class="text-sm text-warm-gray line-clamp-2">{{ $tenant->description }}</p>
+                    <p class="text-xs font-semibold text-mauve-bark mt-3">{{ $tenant->makanans_count }} makanan · {{ $tenant->minumen_count }} minuman</p>
+                </div>
+                <span class="tenant-arrow shrink-0"><x-icon name="arrow" class="w-4 h-4" /></span>
+            </div>
+        </a>
+    @empty
+        <div class="col-span-full text-center py-16 text-warm-gray">
+            <x-icon name="store" class="w-12 h-12 mx-auto mb-3" /> Belum ada tenant yang tersedia.
+        </div>
+    @endforelse
+</div>
+@endsection
