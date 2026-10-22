@@ -39,6 +39,7 @@
                             ctx.fillStyle = '#fff';
                             ctx.fillRect(0, 0, out, out);
                             ctx.drawImage(bmp, (bmp.width - side) / 2, (bmp.height - side) / 2, side, side, 0, 0, out, out);
+                            bmp.close();
                             const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.85));
                             if (blob) file = new File([blob], 'foto.jpg', { type: 'image/jpeg' });
                         } catch (err) {
