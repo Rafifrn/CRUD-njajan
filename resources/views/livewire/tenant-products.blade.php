@@ -64,7 +64,32 @@
                 <div>
                     <span class="block text-sm font-semibold mb-2">Foto</span>
                     @php $preview = $image ? $image->temporaryUrl() : ($existingImage ? (str_starts_with($existingImage, 'http') ? $existingImage : asset('storage/'.$existingImage)) : null); @endphp
-                    <label class="relative block aspect-square rounded-[14px] border-2 border-dashed border-warm-sand bg-sage-mist/40 overflow-hidden cursor-pointer transition hover:border-mauve-bark focus-within:border-mauve-bark">
+                    {{-- crop 1:1 + compress in the browser before upload, so phone photos stay under PHP's upload_max_filesize (2 MB by default) --}}
+                    <label x-data="{
+                        busy: false,
+                        async pick(e) {
+                            let file = e.target.files[0];
+                            e.target.value = '';
+                            if (! file) return;
+                            this.busy = true;
+                            try {
+                                const bmp = await createImageBitmap(file, { imageOrientation: 'from-image' });
+                                const side = Math.min(bmp.width, bmp.height);
+                                const out = Math.min(side, 1080);
+                                const canvas = document.createElement('canvas');
+                                canvas.width = canvas.height = out;
+                                const ctx = canvas.getContext('2d');
+                                ctx.fillStyle = '#fff';
+                                ctx.fillRect(0, 0, out, out);
+                                ctx.drawImage(bmp, (bmp.width - side) / 2, (bmp.height - side) / 2, side, side, 0, 0, out, out);
+                                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.85));
+                                if (blob) file = new File([blob], 'foto.jpg', { type: 'image/jpeg' });
+                            } catch (err) {
+                                // browser can't decode it (e.g. HEIC): send the original and let the server validate it
+                            }
+                            $wire.upload('image', file, () => this.busy = false, () => this.busy = false);
+                        },
+                    }" class="relative block aspect-square rounded-[14px] border-2 border-dashed border-warm-sand bg-sage-mist/40 overflow-hidden cursor-pointer transition hover:border-mauve-bark focus-within:border-mauve-bark">
                         @if ($preview)
                             <img src="{{ $preview }}" alt="Pratinjau" class="absolute inset-0 w-full h-full object-cover">
                             <span class="absolute bottom-3 left-1/2 -translate-x-1/2 badge bg-white/90 backdrop-blur text-coffee-bean">Ganti foto</span>
@@ -75,8 +100,8 @@
                                 <span class="text-xs">Otomatis dipotong 1:1 &amp; dikompres. Maks. 10 MB.</span>
                             </span>
                         @endif
-                        <input type="file" wire:model="image" accept="image/*" class="sr-only">
-                        <span wire:loading wire:target="image" class="absolute inset-0 grid place-items-center bg-white/70 text-sm font-semibold">Mengunggah…</span>
+                        <input type="file" x-on:change="pick($event)" accept="image/*" class="sr-only">
+                        <span x-show="busy" style="display: none" class="absolute inset-0 grid place-items-center bg-white/70 text-sm font-semibold">Mengunggah…</span>
                     </label>
                     @error('image') <p class="text-red-700 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
