@@ -22,7 +22,31 @@
                 <h2 class="text-xl font-bold">{{ $editId ? 'Edit Menu' : 'Tambah Menu' }}</h2>
             </div>
 
-            <form wire:submit="save" class="space-y-5">
+            <form x-data="{
+                    busy: false,
+                    async pick(e) {
+                        let file = e.target.files[0];
+                        e.target.value = '';
+                        if (! file) return;
+                        this.busy = true;
+                        try {
+                            const bmp = await createImageBitmap(file, { imageOrientation: 'from-image' });
+                            const side = Math.min(bmp.width, bmp.height);
+                            const out = Math.min(side, 1080);
+                            const canvas = document.createElement('canvas');
+                            canvas.width = canvas.height = out;
+                            const ctx = canvas.getContext('2d');
+                            ctx.fillStyle = '#fff';
+                            ctx.fillRect(0, 0, out, out);
+                            ctx.drawImage(bmp, (bmp.width - side) / 2, (bmp.height - side) / 2, side, side, 0, 0, out, out);
+                            const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.85));
+                            if (blob) file = new File([blob], 'foto.jpg', { type: 'image/jpeg' });
+                        } catch (err) {
+                            // browser can't decode it (e.g. HEIC): send the original and let the server validate it
+                        }
+                        $wire.upload('image', file, () => this.busy = false, () => this.busy = false);
+                    },
+                }" wire:submit="save" class="space-y-5">
                 <fieldset>
                     <legend class="block text-sm font-semibold mb-2">Tipe</legend>
                     <div class="grid grid-cols-2 gap-2">
@@ -65,31 +89,7 @@
                     <span class="block text-sm font-semibold mb-2">Foto</span>
                     @php $preview = $image ? $image->temporaryUrl() : ($existingImage ? (str_starts_with($existingImage, 'http') ? $existingImage : asset('storage/'.$existingImage)) : null); @endphp
                     {{-- crop 1:1 + compress in the browser before upload, so phone photos stay under PHP's upload_max_filesize (2 MB by default) --}}
-                    <label x-data="{
-                        busy: false,
-                        async pick(e) {
-                            let file = e.target.files[0];
-                            e.target.value = '';
-                            if (! file) return;
-                            this.busy = true;
-                            try {
-                                const bmp = await createImageBitmap(file, { imageOrientation: 'from-image' });
-                                const side = Math.min(bmp.width, bmp.height);
-                                const out = Math.min(side, 1080);
-                                const canvas = document.createElement('canvas');
-                                canvas.width = canvas.height = out;
-                                const ctx = canvas.getContext('2d');
-                                ctx.fillStyle = '#fff';
-                                ctx.fillRect(0, 0, out, out);
-                                ctx.drawImage(bmp, (bmp.width - side) / 2, (bmp.height - side) / 2, side, side, 0, 0, out, out);
-                                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.85));
-                                if (blob) file = new File([blob], 'foto.jpg', { type: 'image/jpeg' });
-                            } catch (err) {
-                                // browser can't decode it (e.g. HEIC): send the original and let the server validate it
-                            }
-                            $wire.upload('image', file, () => this.busy = false, () => this.busy = false);
-                        },
-                    }" class="relative block aspect-square rounded-[14px] border-2 border-dashed border-warm-sand bg-sage-mist/40 overflow-hidden cursor-pointer transition hover:border-mauve-bark focus-within:border-mauve-bark">
+                    <label class="relative block aspect-square rounded-[14px] border-2 border-dashed border-warm-sand bg-sage-mist/40 overflow-hidden cursor-pointer transition hover:border-mauve-bark focus-within:border-mauve-bark">
                         @if ($preview)
                             <img src="{{ $preview }}" alt="Pratinjau" class="absolute inset-0 w-full h-full object-cover">
                             <span class="absolute bottom-3 left-1/2 -translate-x-1/2 badge bg-white/90 backdrop-blur text-coffee-bean">Ganti foto</span>
@@ -113,7 +113,7 @@
                 </label>
 
                 <div class="flex gap-2 pt-1">
-                    <button type="submit" class="btn btn-dark flex-1" wire:loading.attr="disabled" wire:target="save,image">
+                    <button type="submit" class="btn btn-dark flex-1" wire:loading.attr="disabled" wire:target="save" x-bind:disabled="busy">
                         {{ $editId ? 'Simpan Perubahan' : 'Tambah Menu' }}
                     </button>
                     @if ($editId)
