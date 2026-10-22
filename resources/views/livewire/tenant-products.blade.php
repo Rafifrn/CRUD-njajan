@@ -100,7 +100,7 @@
                                 <span class="text-xs">Otomatis dipotong 1:1 &amp; dikompres. Maks. 10 MB.</span>
                             </span>
                         @endif
-                        <input type="file" x-on:change="pick($event)" accept="image/*" class="sr-only">
+                        <input type="file" x-on:change="pick($event)" x-bind:disabled="busy" accept="image/*" class="sr-only">
                         <span x-show="busy" style="display: none" class="absolute inset-0 grid place-items-center bg-white/70 text-sm font-semibold">Mengunggah…</span>
                     </label>
                     @error('image') <p class="text-red-700 text-xs mt-1">{{ $message }}</p> @enderror
