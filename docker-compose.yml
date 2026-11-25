@@ -1,0 +1,57 @@
+name: njajan
+
+services:
+  app:
+    image: ${APP_IMAGE:-njajan-app:local}
+    build:
+      context: .
+      target: app
+    env_file: .env
+    volumes:
+      - storage-public:/var/www/html/storage/app/public
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: unless-stopped
+
+  web:
+    image: ${WEB_IMAGE:-njajan-web:local}
+    build:
+      context: .
+      target: web
+    environment:
+      SITE_ADDRESS: ${SITE_ADDRESS:-http://localhost}
+      ACME_EMAIL: ${ACME_EMAIL:-admin@localhost}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - storage-public:/var/www/html/storage/app/public:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - app
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+    # Sengaja TANPA "ports": MySQL hanya bisa diakses dari jaringan internal Docker
+
+volumes:
+  mysql-data:
+  storage-public:
+  caddy-data:
+  caddy-config:

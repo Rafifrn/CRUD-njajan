@@ -1,0 +1,29 @@
+{
+	email {$ACME_EMAIL:admin@localhost}
+}
+
+{$SITE_ADDRESS:http://localhost} {
+	root * /var/www/html/public
+	encode zstd gzip
+
+	# Teruskan PHP ke SEMUA replika container "app" (load balancing)
+	php_fastcgi {
+		dynamic a app 9000 {
+			refresh 5s
+		}
+		lb_policy round_robin
+	}
+
+	file_server
+
+	header {
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		-Server
+	}
+
+	log {
+		output stdout
+		format json
+	}
+}
