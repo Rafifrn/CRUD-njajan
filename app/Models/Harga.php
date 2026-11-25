@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Harga extends Model
 {
-    //mass assignment
+    // mass assignment
     protected $guarded = ['id'];
 
     public function getRouteKeyName(): string
@@ -16,12 +16,12 @@ class Harga extends Model
     }
 
     // relationships
-    public function makanan() : BelongsTo
+    public function makanan(): BelongsTo
     {
         return $this->belongsTo(Makanan::class);
     }
 
-    public function minuman() : BelongsTo
+    public function minuman(): BelongsTo
     {
         return $this->belongsTo(Minuman::class);
     }

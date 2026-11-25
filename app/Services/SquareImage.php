@@ -9,6 +9,7 @@ use Illuminate\Validation\ValidationException;
 class SquareImage
 {
     const SIZE = 1080;          // output edge in px
+
     const MAX_BYTES = 1048576;  // 1 MB
 
     /** Center-crop to 1:1, resize, compress to <= 1 MB, store as JPEG on the public disk. Returns the stored path. */

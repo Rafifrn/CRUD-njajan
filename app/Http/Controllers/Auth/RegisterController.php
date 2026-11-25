@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -20,10 +22,10 @@ class RegisterController extends Controller
     }
 
     // No auto-login: send the new user to the login page to sign in
-    public function register(\Illuminate\Http\Request $request)
+    public function register(Request $request)
     {
         $this->validator($request->all())->validate();
-        event(new \Illuminate\Auth\Events\Registered($this->create($request->all())));
+        event(new Registered($this->create($request->all())));
 
         return redirect()->route('login')->with('status', 'Pendaftaran berhasil. Silakan masuk.');
     }
@@ -42,7 +44,7 @@ class RegisterController extends Controller
         return User::create([
             'name' => $data['name'],
             'phone' => $data['phone'],
-            'email' => $data['phone'] . '@placeholder.local', // Generate dummy email
+            'email' => $data['phone'].'@placeholder.local', // Generate dummy email
             'password' => Hash::make($data['password']),
         ]);
     }

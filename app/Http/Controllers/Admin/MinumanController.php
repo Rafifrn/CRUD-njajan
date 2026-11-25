@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Minuman;
+use App\Services\SquareImage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Str;
 
 class MinumanController extends Controller
 {
@@ -14,8 +15,9 @@ class MinumanController extends Controller
      */
     public function index()
     {
-         $minumans = Minuman::all();
-    return view('admin.minumanIndex', compact('minumans'));
+        $minumans = Minuman::all();
+
+        return view('admin.minumanIndex', compact('minumans'));
     }
 
     /**
@@ -23,7 +25,7 @@ class MinumanController extends Controller
      */
     public function create()
     {
-         return view('admin.createMinuman');
+        return view('admin.createMinuman');
     }
 
     /**
@@ -32,36 +34,36 @@ class MinumanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-        'name' => 'required|string|max:255',
-        'description' => 'nullable|string',
-        'price' => 'required|numeric',
-        'region' => 'required|string|max:255',
-        'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240',
-    ]);
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric',
+            'region' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240',
+        ]);
 
-    $slug = Str::slug($request->name); // otomatis generate slug
+        $slug = Str::slug($request->name); // otomatis generate slug
 
-    // Cek jika slug sudah ada di database
-    $count = \App\Models\Minuman::where('slug', $slug)->count();
-    if ($count > 0) {
-        $slug .= '-' . ($count + 1); // hindari duplikat slug
-    }
+        // Cek jika slug sudah ada di database
+        $count = Minuman::where('slug', $slug)->count();
+        if ($count > 0) {
+            $slug .= '-'.($count + 1); // hindari duplikat slug
+        }
 
-    $imagePath = null;
-    if ($request->hasFile('image')) {
-        $imagePath = \App\Services\SquareImage::store($request->file('image'), 'minuman');
-    }
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = SquareImage::store($request->file('image'), 'minuman');
+        }
 
-    Minuman::create([
-        'name' => $request->name,
-        'slug' => $slug,
-        'description' => $request->description,
-        'price' => $request->price,
-        'region' => $request->region,
-        'image' => $imagePath,
-    ]);
+        Minuman::create([
+            'name' => $request->name,
+            'slug' => $slug,
+            'description' => $request->description,
+            'price' => $request->price,
+            'region' => $request->region,
+            'image' => $imagePath,
+        ]);
 
-    return redirect()->route('admin.minuman.create')->with('success', 'Minuman berhasil ditambahkan.');
+        return redirect()->route('admin.minuman.create')->with('success', 'Minuman berhasil ditambahkan.');
     }
 
     /**
@@ -78,7 +80,8 @@ class MinumanController extends Controller
     public function edit($id)
     {
         $minuman = Minuman::findOrFail($id);
-    return view('admin.editMinuman', compact('minuman'));
+
+        return view('admin.editMinuman', compact('minuman'));
     }
 
     /**
@@ -88,30 +91,30 @@ class MinumanController extends Controller
     {
         $minuman = Minuman::findOrFail($id);
 
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'description' => 'nullable|string',
-        'price' => 'required|numeric',
-        'region' => 'required|string|max:255',
-        'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240',
-    ]);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric',
+            'region' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240',
+        ]);
 
-    $slug = Str::slug($request->name);
+        $slug = Str::slug($request->name);
 
-    if ($request->hasFile('image')) {
-        $imagePath = \App\Services\SquareImage::store($request->file('image'), 'minuman');
-        $minuman->image = $imagePath;
-    }
+        if ($request->hasFile('image')) {
+            $imagePath = SquareImage::store($request->file('image'), 'minuman');
+            $minuman->image = $imagePath;
+        }
 
-    $minuman->update([
-        'name' => $request->name,
-        'slug' => $slug,
-        'description' => $request->description,
-        'price' => $request->price,
-        'region' => $request->region,
-    ]);
+        $minuman->update([
+            'name' => $request->name,
+            'slug' => $slug,
+            'description' => $request->description,
+            'price' => $request->price,
+            'region' => $request->region,
+        ]);
 
-    return redirect()->route('admin.minuman.index')->with('success', 'Data berhasil diupdate.');
+        return redirect()->route('admin.minuman.index')->with('success', 'Data berhasil diupdate.');
     }
 
     /**
@@ -120,7 +123,8 @@ class MinumanController extends Controller
     public function destroy($id)
     {
         $minuman = Minuman::findOrFail($id);
-    $minuman->delete();
-    return redirect()->route('admin.minuman.index')->with('success', 'Data berhasil dihapus.');
+        $minuman->delete();
+
+        return redirect()->route('admin.minuman.index')->with('success', 'Data berhasil dihapus.');
     }
 }

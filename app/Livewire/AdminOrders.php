@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Order;
+use App\Models\Tenant;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -12,7 +13,9 @@ class AdminOrders extends Component
     use WithPagination;
 
     public string $search = '';
+
     public string $filterStatus = 'semua';
+
     public string $filterTenant = 'semua';
 
     public function updatingSearch(): void
@@ -41,7 +44,7 @@ class AdminOrders extends Component
     #[Computed]
     public function tenants()
     {
-        return \App\Models\Tenant::orderBy('name')->get();
+        return Tenant::orderBy('name')->get();
     }
 
     public function render()

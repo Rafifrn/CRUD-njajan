@@ -1,19 +1,18 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\MakananController;
-use App\Http\Controllers\MenuController;
 use App\Http\Controllers\Admin\MinumanController;
-use App\Http\Controllers\OrderController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CheckoutController;
-use App\Http\Controllers\XenditWebhookController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\XenditWebhookController;
 use App\Models\Makanan;
 use App\Models\Minuman;
 use App\Models\Tenant;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +43,7 @@ Route::middleware(['auth'])->group(function () {
     // HOME: daftar tenant UMKM
     Route::get('/home', function () {
         $tenants = Tenant::where('is_active', true)->withCount(['makanans', 'minumen'])->get();
+
         return view('user.home', compact('tenants'));
     })->name('home');
 
@@ -52,6 +52,7 @@ Route::middleware(['auth'])->group(function () {
         $makanans = Makanan::with('tenant')->where('is_available', true)->get();
         $minumans = Minuman::with('tenant')->where('is_available', true)->get();
         $tenants = Tenant::where('is_active', true)->get();
+
         return view('user.order', compact('makanans', 'minumans', 'tenants'));
     })->name('order');
 
@@ -85,6 +86,7 @@ Route::get('/', function () {
             default => redirect('/home'),
         };
     }
+
     return redirect('/login');
 });
 

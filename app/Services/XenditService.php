@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Models\Order;
 use App\Models\Payment;
-use Illuminate\Support\Str;
+use Xendit\Invoice;
 use Xendit\Xendit;
 
 class XenditService
@@ -29,7 +29,7 @@ class XenditService
         foreach ($orders as $order) {
             foreach ($order->orderItems as $item) {
                 $items[] = [
-                    'name' => $item->name . ($order->tenant ? ' (' . $order->tenant->name . ')' : ''),
+                    'name' => $item->name.($order->tenant ? ' ('.$order->tenant->name.')' : ''),
                     'quantity' => (int) $item->qty,
                     'price' => (float) $item->price,
                     'category' => $item->product_type,
@@ -40,7 +40,7 @@ class XenditService
         $params = [
             'external_id' => $payment->group_code,
             'amount' => (int) $payment->amount,
-            'description' => 'Pembayaran pesanan ' . $payment->group_code,
+            'description' => 'Pembayaran pesanan '.$payment->group_code,
             'invoice_duration' => 86400,
             'customer' => [
                 'given_names' => optional($payment->orders->first()->user)->name ?? 'Pelanggan',
@@ -52,7 +52,7 @@ class XenditService
             'items' => $items,
         ];
 
-        $response = \Xendit\Invoice::create($params);
+        $response = Invoice::create($params);
 
         $payment->update([
             'xendit_invoice_id' => $response['id'] ?? null,

@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Makanan;
 use App\Models\Minuman;
 use App\Models\Order;
-use App\Models\OrderItem;
 use App\Models\Payment;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -64,7 +62,7 @@ class CheckoutController extends Controller
             ];
         }
 
-        $groupCode = 'PAY-' . strtoupper(Str::random(10));
+        $groupCode = 'PAY-'.strtoupper(Str::random(10));
 
         try {
             DB::beginTransaction();
@@ -79,7 +77,7 @@ class CheckoutController extends Controller
                 $order = Order::create([
                     'user_id' => $user->id,
                     'tenant_id' => $tenantId,
-                    'kode' => 'ORD-' . strtoupper(Str::random(8)),
+                    'kode' => 'ORD-'.strtoupper(Str::random(8)),
                     'payment_group' => $groupCode,
                     'items' => $tenantItems->map(fn ($i) => [
                         'id' => $i['product']->id,
@@ -118,9 +116,10 @@ class CheckoutController extends Controller
             DB::commit();
         } catch (\Throwable $e) {
             DB::rollBack();
+
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal membuat pesanan: ' . $e->getMessage(),
+                'message' => 'Gagal membuat pesanan: '.$e->getMessage(),
             ], 500);
         }
 

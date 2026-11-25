@@ -14,14 +14,20 @@ class AdminUsers extends Component
     use WithPagination;
 
     public string $search = '';
+
     public string $filterRole = 'semua';
 
     // Form tambah user/tenant/admin
     public string $name = '';
+
     public string $email = '';
+
     public string $phone = '';
+
     public string $password = '';
+
     public string $role = 'user';
+
     public ?int $tenantId = null;
 
     protected function rules(): array

@@ -6,7 +6,7 @@ use App\Models\User;
 function buatUser(string $role = 'user'): User
 {
     return User::factory()->create([
-        'phone' => '08' . fake()->unique()->numerify('##########'),
+        'phone' => '08'.fake()->unique()->numerify('##########'),
         'role' => $role,
     ]);
 }

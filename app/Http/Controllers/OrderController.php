@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
 use App\Http\Requests\UpdateOrderRequest;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Order;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -45,6 +42,7 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         $order->load('user', 'tenant', 'orderItems');
+
         return view('admin.showOrder', compact('order'));
     }
 
@@ -54,7 +52,7 @@ class OrderController extends Controller
     public function updateStatus(UpdateOrderRequest $request, Order $order)
     {
         $request->validate([
-            'status' => 'required|in:pending,diproses,selesai,dibatalkan'
+            'status' => 'required|in:pending,diproses,selesai,dibatalkan',
         ]);
 
         $order->status = $request->status;
