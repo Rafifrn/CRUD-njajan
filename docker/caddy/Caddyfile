@@ -1,12 +1,12 @@
 {
 	email {$ACME_EMAIL:admin@localhost}
+	metrics
 }
 
 {$SITE_ADDRESS:http://localhost} {
 	root * /var/www/html/public
 	encode zstd gzip
 
-	# Teruskan PHP ke SEMUA replika container "app" (load balancing)
 	php_fastcgi {
 		dynamic a app 9000 {
 			refresh 5s
@@ -26,4 +26,12 @@
 		output stdout
 		format json
 	}
+}
+
+{$GRAFANA_ADDRESS:http://grafana.localhost} {
+	reverse_proxy grafana:3000
+}
+
+:2020 {
+	metrics /metrics
 }

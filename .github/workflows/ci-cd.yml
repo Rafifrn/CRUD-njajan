@@ -103,7 +103,7 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          source: docker-compose.yml
+          source: docker-compose.yml,monitoring
           target: /opt/njajan
 
       - name: Pull image baru & restart
@@ -117,7 +117,7 @@ jobs:
             cd /opt/njajan
             export APP_IMAGE=ghcr.io/rafifrn/crud-njajan-app:${{ github.sha }}
             export WEB_IMAGE=ghcr.io/rafifrn/crud-njajan-web:${{ github.sha }}
-            docker compose pull app web
+            docker compose pull 
             docker compose up -d --no-build
             docker compose exec -T app php artisan migrate --force
             docker image prune -f
