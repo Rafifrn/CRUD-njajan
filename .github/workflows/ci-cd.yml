@@ -86,3 +86,47 @@ jobs:
             ${{ env.IMAGE_WEB }}:${{ github.sha }}
             ${{ env.IMAGE_WEB }}:latest
           cache-from: type=gha,scope=njajan
+  deploy:
+    name: Deploy ke VPS
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://njajan.zhafran.web.id
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Kirim docker-compose.yml ke VPS
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          source: docker-compose.yml
+          target: /opt/njajan
+
+      - name: Pull image baru & restart
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            set -e
+            cd /opt/njajan
+            export APP_IMAGE=ghcr.io/rafifrn/crud-njajan-app:${{ github.sha }}
+            export WEB_IMAGE=ghcr.io/rafifrn/crud-njajan-web:${{ github.sha }}
+            docker compose pull app web
+            docker compose up -d --no-build
+            docker compose exec -T app php artisan migrate --force
+            docker image prune -f
+
+      - name: Smoke test
+        run: |
+          for i in 1 2 3 4 5 6; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" https://njajan.zhafran.web.id/up)
+            if [ "$code" = "200" ]; then echo "Situs sehat (HTTP $code)"; exit 0; fi
+            echo "Percobaan $i: HTTP $code, tunggu 5 detik..."; sleep 5
+          done
+          echo "Smoke test gagal"; exit 1
