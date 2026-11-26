@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Makanan;
 use App\Models\Minuman;
+use App\Services\SquareImage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
@@ -18,13 +19,21 @@ class TenantProducts extends Component
 
     // Form fields
     public ?int $editId = null;
+
     public string $formType = 'makanan'; // makanan | minuman (makanan table menyimpan kategori makanan/jajanan)
+
     public string $formCategory = 'makanan';
+
     public string $name = '';
+
     public string $description = '';
+
     public ?float $price = null;
+
     public $image;
+
     public string $existingImage = '';
+
     public bool $isAvailable = true;
 
     protected function messages(): array
@@ -110,7 +119,7 @@ class TenantProducts extends Component
         ];
 
         if ($this->image) {
-            $data['image'] = \App\Services\SquareImage::store($this->image, 'produk');
+            $data['image'] = SquareImage::store($this->image, 'produk');
         }
 
         if ($this->formType === 'makanan') {
@@ -122,7 +131,7 @@ class TenantProducts extends Component
                 $m = Makanan::where('tenant_id', $this->tenant->id)->findOrFail($this->editId);
                 $m->update($data);
             } else {
-                $data['slug'] = Str::slug($this->name) . '-' . Str::lower(Str::random(6));
+                $data['slug'] = Str::slug($this->name).'-'.Str::lower(Str::random(6));
                 Makanan::create($data);
             }
         } else {
@@ -130,7 +139,7 @@ class TenantProducts extends Component
                 $m = Minuman::where('tenant_id', $this->tenant->id)->findOrFail($this->editId);
                 $m->update($data);
             } else {
-                $data['slug'] = Str::slug($this->name) . '-' . Str::lower(Str::random(6));
+                $data['slug'] = Str::slug($this->name).'-'.Str::lower(Str::random(6));
                 Minuman::create($data);
             }
         }

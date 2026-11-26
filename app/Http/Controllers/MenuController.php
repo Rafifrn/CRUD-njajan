@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Menu;
 use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
 use App\Models\Makanan;
+use App\Models\Menu;
 use App\Models\Minuman;
 use Illuminate\Http\Request;
-use PhpParser\Node\Expr\AssignOp\Minus;
 
 class MenuController extends Controller
 {
@@ -28,20 +27,20 @@ class MenuController extends Controller
      */
     public function create($kategori = null, $id = null)
     {
-        if (!$kategori || !$id) {
-        abort(404);
-    }
+        if (! $kategori || ! $id) {
+            abort(404);
+        }
 
-    $model = match ($kategori) {
-        'makanan' => Makanan::class,
-        'minuman' => Minuman::class,
-        default => abort(404),
-    };
+        $model = match ($kategori) {
+            'makanan' => Makanan::class,
+            'minuman' => Minuman::class,
+            default => abort(404),
+        };
 
-    $item = $model::findOrFail($id);
+        $item = $model::findOrFail($id);
 
-    // Lempar data ke view pesan (view belum kita bahas)
-    return view('pesan', compact('item'));
+        // Lempar data ke view pesan (view belum kita bahas)
+        return view('pesan', compact('item'));
     }
 
     /**
@@ -85,24 +84,25 @@ class MenuController extends Controller
     }
 
     public function daftarMenu(Request $request)
-{
-    $daerah = $request->query('daerah'); // ambil filter dari query string
+    {
+        $daerah = $request->query('daerah'); // ambil filter dari query string
 
-    $makanans = Makanan::query();
-    $minumans = Minuman::query();
+        $makanans = Makanan::query();
+        $minumans = Minuman::query();
 
-    if ($daerah) {
-        $makanans->where('daerah', $daerah);
-        $minumans->where('daerah', $daerah);
+        if ($daerah) {
+            $makanans->where('daerah', $daerah);
+            $minumans->where('daerah', $daerah);
+        }
+
+        return view('menu.daftar', [
+            'makanans' => $makanans->get(),
+            'minumans' => $minumans->get(),
+            'daerahDipilih' => $daerah,
+        ]);
     }
 
-    return view('menu.daftar', [
-        'makanans' => $makanans->get(),
-        'minumans' => $minumans->get(),
-        'daerahDipilih' => $daerah,
-    ]);
-}
-public function getItemData($kategori, $id)
+    public function getItemData($kategori, $id)
     {
         switch ($kategori) {
             case 'makanan':
@@ -115,7 +115,7 @@ public function getItemData($kategori, $id)
                 return response()->json(['error' => 'Kategori tidak valid'], 400);
         }
 
-        if (!$item) {
+        if (! $item) {
             return response()->json(['error' => 'Item tidak ditemukan'], 404);
         }
 
@@ -127,5 +127,4 @@ public function getItemData($kategori, $id)
             'region' => $item->region,
         ]);
     }
-
 }

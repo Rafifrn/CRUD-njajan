@@ -10,6 +10,7 @@ use Livewire\Component;
 class TenantOrders extends Component
 {
     public string $tab = 'aktif'; // aktif | nonaktif
+
     public string $tanggal;
 
     public function mount()

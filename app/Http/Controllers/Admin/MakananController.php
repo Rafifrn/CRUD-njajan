@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Makanan;
+use App\Services\SquareImage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Str;
 
 class MakananController extends Controller
 {
@@ -14,8 +15,9 @@ class MakananController extends Controller
      */
     public function index()
     {
-         $makanans = Makanan::all();
-    return view('admin.makananIndex', compact('makanans'));
+        $makanans = Makanan::all();
+
+        return view('admin.makananIndex', compact('makanans'));
     }
 
     /**
@@ -31,37 +33,37 @@ class MakananController extends Controller
      */
     public function store(Request $request)
     {
-         $request->validate([
-        'name' => 'required|string|max:255',
-        'description' => 'nullable|string',
-        'price' => 'required|numeric',
-        'region' => 'required|string|max:255',
-        'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240',
-    ]);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric',
+            'region' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240',
+        ]);
 
-    $slug = Str::slug($request->name); // otomatis generate slug
+        $slug = Str::slug($request->name); // otomatis generate slug
 
-    // Cek jika slug sudah ada di database
-    $count = \App\Models\Makanan::where('slug', $slug)->count();
-    if ($count > 0) {
-        $slug .= '-' . ($count + 1); // hindari duplikat slug
-    }
+        // Cek jika slug sudah ada di database
+        $count = Makanan::where('slug', $slug)->count();
+        if ($count > 0) {
+            $slug .= '-'.($count + 1); // hindari duplikat slug
+        }
 
-    $imagePath = null;
-    if ($request->hasFile('image')) {
-        $imagePath = \App\Services\SquareImage::store($request->file('image'), 'makanan');
-    }
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = SquareImage::store($request->file('image'), 'makanan');
+        }
 
-    Makanan::create([
-        'name' => $request->name,
-        'slug' => $slug,
-        'description' => $request->description,
-        'price' => $request->price,
-        'region' => $request->region,
-        'image' => $imagePath,
-    ]);
+        Makanan::create([
+            'name' => $request->name,
+            'slug' => $slug,
+            'description' => $request->description,
+            'price' => $request->price,
+            'region' => $request->region,
+            'image' => $imagePath,
+        ]);
 
-    return redirect()->route('admin.makanan.create')->with('success', 'Makanan berhasil ditambahkan.');
+        return redirect()->route('admin.makanan.create')->with('success', 'Makanan berhasil ditambahkan.');
     }
 
     /**
@@ -76,10 +78,11 @@ class MakananController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit($id)
-{
-    $makanan = Makanan::findOrFail($id);
-    return view('admin.editMakanan', compact('makanan'));
-}
+    {
+        $makanan = Makanan::findOrFail($id);
+
+        return view('admin.editMakanan', compact('makanan'));
+    }
 
     /**
      * Update the specified resource in storage.
@@ -88,30 +91,30 @@ class MakananController extends Controller
     {
         $makanan = Makanan::findOrFail($id);
 
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'description' => 'nullable|string',
-        'price' => 'required|numeric',
-        'region' => 'required|string|max:255',
-        'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240',
-    ]);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric',
+            'region' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240',
+        ]);
 
-    $slug = Str::slug($request->name);
+        $slug = Str::slug($request->name);
 
-    if ($request->hasFile('image')) {
-        $imagePath = \App\Services\SquareImage::store($request->file('image'), 'makanan');
-        $makanan->image = $imagePath;
-    }
+        if ($request->hasFile('image')) {
+            $imagePath = SquareImage::store($request->file('image'), 'makanan');
+            $makanan->image = $imagePath;
+        }
 
-    $makanan->update([
-        'name' => $request->name,
-        'slug' => $slug,
-        'description' => $request->description,
-        'price' => $request->price,
-        'region' => $request->region,
-    ]);
+        $makanan->update([
+            'name' => $request->name,
+            'slug' => $slug,
+            'description' => $request->description,
+            'price' => $request->price,
+            'region' => $request->region,
+        ]);
 
-    return redirect()->route('admin.makanan.index')->with('success', 'Data berhasil diupdate.');
+        return redirect()->route('admin.makanan.index')->with('success', 'Data berhasil diupdate.');
     }
 
     /**
@@ -120,7 +123,8 @@ class MakananController extends Controller
     public function destroy($id)
     {
         $makanan = Makanan::findOrFail($id);
-    $makanan->delete();
-    return redirect()->route('admin.makanan.index')->with('success', 'Data berhasil dihapus.');
+        $makanan->delete();
+
+        return redirect()->route('admin.makanan.index')->with('success', 'Data berhasil dihapus.');
     }
 }

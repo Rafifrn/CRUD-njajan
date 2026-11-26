@@ -3,8 +3,8 @@
 namespace App\Livewire;
 
 use App\Models\Tenant;
+use App\Services\SquareImage;
 use Illuminate\Support\Str;
-use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -13,11 +13,17 @@ class AdminTenants extends Component
     use WithFileUploads;
 
     public ?int $editId = null;
+
     public string $name = '';
+
     public string $description = '';
+
     public string $slug = '';
+
     public $logo;
+
     public string $existingLogo = '';
+
     public bool $isActive = true;
 
     protected function messages(): array
@@ -62,14 +68,14 @@ class AdminTenants extends Component
         ];
 
         if ($this->logo) {
-            $data['logo'] = \App\Services\SquareImage::store($this->logo, 'tenants');
+            $data['logo'] = SquareImage::store($this->logo, 'tenants');
         }
 
         if ($this->editId) {
             $t = Tenant::findOrFail($this->editId);
             $t->update($data + ['slug' => $this->slug]);
         } else {
-            $data['slug'] = Str::slug($this->name) . '-' . Str::lower(Str::random(5));
+            $data['slug'] = Str::slug($this->name).'-'.Str::lower(Str::random(5));
             Tenant::create($data);
         }
 

@@ -5,7 +5,6 @@ namespace App\Livewire;
 use App\Models\Makanan;
 use App\Models\Minuman;
 use App\Models\Order;
-use App\Models\Payment;
 use App\Models\Tenant;
 use App\Models\User;
 use Livewire\Attributes\Computed;

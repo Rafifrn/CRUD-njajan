@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Makanan;
-use App\Models\Menu;
-use App\Models\Minuman;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,14 +17,14 @@ class DashboardController extends Controller
         $totalOrder = Order::count();
         $completedOrder = Order::where('status', 'completed')->count();
         $totalUser = User::count();
-        
+
         // Ini bagian penting: keuntungan dihitung dari order yang sudah selesai
         $keuntungan = Order::where('status', 'completed')->sum('total');
 
         $totalMenus = Makanan::count();
 
         $pendingOrders = Order::where('status', 'pending')->count();
-        
+
         return view('home', compact(
             'totalOrder',
             'completedOrder',
