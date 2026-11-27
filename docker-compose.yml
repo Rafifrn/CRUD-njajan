@@ -13,6 +13,8 @@ services:
       mysql:
         condition: service_healthy
     restart: unless-stopped
+    deploy:
+      replicas: 3
 
   web:
     image: ${WEB_IMAGE:-njajan-web:local}
